@@ -3,21 +3,25 @@ const swaggereJsdoc = require('swagger-jsdoc');
 
 const options = {
     swaggerDefinition: {
-        info: {
-            title: 'Test API',
-            version: '1.0.0',
-            description: 'Test API with express',
+      openapi: "3.0.0",
+      info: {
+        version: "1.0.0",
+        title: "개발이 취미인 남자",
+        description:
+          "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
+      },
+      servers: [
+        {
+          url: "https://dev.uksfristdomain.shop", // 요청 URL
         },
-        host: 'localhost:3300',
-        basePath: '/'
+      ],
     },
-    apis: ['./routes/*.js', './swagger/*']
-};
-
+    apis: ["./api-server-node-js-final/src/app/User/userRoute.js","./config/express.js"], //Swagger 파일 연동
+  }
+  
 const specs = swaggereJsdoc(options);
 
 module.exports = {
     swaggerUi,
     specs
 };
-출처: https://gngsn.tistory.com/69 [pageseo:티스토리]

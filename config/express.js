@@ -2,6 +2,8 @@ const express = require('express');
 const compression = require('compression'); //클라이언트와 송수신할때 데이터 압축해서 보내도록하는 middle-ware
 const methodOverride = require('method-override'); //form태크에는 get post밖에 없어서 put delete를 위해 매핑해주는 middle-ware인거 같은데 써봐야 알거 같다.
 var cors = require('cors'); //Cross-Origin Resource Sharing 허용해주는데 사용되는 미들웨어
+const { swaggerUi, specs } = require('../swagger');
+
 module.exports = function () {
     const app = express();
 
@@ -14,6 +16,9 @@ module.exports = function () {
     app.use(methodOverride());
 
     app.use(cors());
+
+    console.log(swaggerUi,specs);
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
     // app.use(express.static(process.cwd() + '/public'));
 
     /* App (Android, iOS) */

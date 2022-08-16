@@ -3,6 +3,12 @@ module.exports = function(app){
     const jwtMiddleware = require('../../../config/jwtMiddleware');
 
     //0. 테스트 API
+    /*
+    * @swagger
+    * /product:
+    *   get:
+    *       tags:   
+    */
      app.get('/app/test', user.getTest)
 
     // 1. 유저 생성 (회원가입) API
