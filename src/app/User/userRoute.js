@@ -3,12 +3,27 @@ module.exports = function(app){
     const jwtMiddleware = require('../../../config/jwtMiddleware');
 
     //0. 테스트 API
-    /*
-    * @swagger
-    * /product:
-    *   get:
-    *       tags:   
-    */
+    /**
+ * @swagger
+ *  /product:
+ *    get:
+ *      tags:
+ *      - product
+ *      description: 모든 제품 조회
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: query
+ *          name: category
+ *          required: false
+ *          schema:
+ *            type: integer
+ *            description: 카테고리
+ *      responses:
+ *       200:
+ *        description: 제품 조회 성공
+ */
+출처: https://gngsn.tistory.com/69 [pageseo:티스토리]
      app.get('/app/test', user.getTest)
 
     // 1. 유저 생성 (회원가입) API

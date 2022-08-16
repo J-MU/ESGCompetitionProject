@@ -16,7 +16,7 @@ const options = {
         },
       ],
     },
-    apis: ["./api-server-node-js-final/src/app/User/userRoute.js","./config/express.js"], //Swagger 파일 연동
+    apis: ["./src/app/User/userRoute.js"], //Swagger 파일 연동
   }
   
 const specs = swaggereJsdoc(options);
