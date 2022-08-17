@@ -22,13 +22,13 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mysql2": "^2.0.0",
-    "nodemon": "^2.0.19",
     "regex-email": "^1.0.2",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.2.1"
   },
   "devDependencies": {
     "mocha": "^10.0.0",
+    "nodemon": "^2.0.19",
     "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0"
