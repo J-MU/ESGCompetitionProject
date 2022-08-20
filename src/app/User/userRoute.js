@@ -23,7 +23,6 @@ module.exports = function(app){
  *       200:
  *        description: 제품 조회 성공
  */
-출처: https://gngsn.tistory.com/69 [pageseo:티스토리]
      app.get('/app/test', user.getTest)
 
     // 1. 유저 생성 (회원가입) API
