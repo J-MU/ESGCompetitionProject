@@ -15,3 +15,18 @@ exports.getMyChallengeLists = async function (connection, userId){
 }
 
 
+exports.getFriends = async function(connection, groupId, userId) {
+
+
+    const selectFriendsQuery = `
+        select U.userName, U.profileImgUrl
+        from Users as U
+        inner join MyChallengesWithFriends as MCF on U.userId=MCF.userId
+        where MCF.groupId=${groupId} and MCF.userId not in (${userId})
+    `
+
+    const FriendsListsRows = await connection.query(selectFriendsQuery, groupId, userId);
+
+    return FriendsListsRows[0];
+}
+
