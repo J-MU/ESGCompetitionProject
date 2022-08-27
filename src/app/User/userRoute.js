@@ -2,14 +2,14 @@ module.exports = function(app){
     const user = require('./userController');
     const jwtMiddleware = require('../../../config/jwtMiddleware');
 
-    //0. 테스트 API
-    /**
+//0. 테스트 API
+/**
  * @swagger
- *  /product:
+ *  /app/test:
  *    get:
  *      tags:
- *      - product
- *      description: 모든 제품 조회
+ *      - Test
+ *      description: Test API
  *      produces:
  *      - application/json
  *      parameters:
@@ -21,10 +21,30 @@ module.exports = function(app){
  *            description: 카테고리
  *      responses:
  *       200:
- *        description: 제품 조회 성공
+ *        description: 테스트 API 정상 작동
  */
      app.get('/app/test', user.getTest)
 
+/**
+ * @swagger
+ *  /app/users:
+ *    post:
+ *      tags:
+ *      - User
+ *      description: 회원가입 API
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: query
+ *          name: category
+ *          required: false
+ *          schema:
+ *            type: integer
+ *            description: 카테고리
+ *      responses:
+ *       200:
+ *        description: 테스트 API 정상 작동
+ */
     // 1. 유저 생성 (회원가입) API
     app.post('/app/users', user.postUsers);
 
