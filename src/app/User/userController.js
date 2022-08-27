@@ -20,28 +20,29 @@ exports.getTest = async function (req, res) {
  * API No. 1
  * API Name : 유저 생성 (회원가입) API
  * [POST] /app/users
+
  */
 exports.postUsers = async function (req, res) {
 
-    /**
-     * Body: email, password, nickname
-     */
-    const {email, password, nickname} = req.body;
+   /** 
+    *   body: {
+    *      uuid:
+    *      userName:
+    *      profileImgUrl:
+    *   }
+    **/
+    const {userId,userName,profileImgUrl} = req.body;
 
     // 빈 값 체크
-    if (!email)
-        return res.send(response(baseResponse.SIGNUP_EMAIL_EMPTY));
+    if (!userId)
+        return res.send(response(baseResponse.USER_USERID_EMPTY));
 
-    // 길이 체크
-    if (email.length > 30)
-        return res.send(response(baseResponse.SIGNUP_EMAIL_LENGTH));
+   
+    //if(!userName)
+       // return res.send(response(baseResponse.));
 
-    // 형식 체크 (by 정규표현식)
-    if (!regexEmail.test(email))
-        return res.send(response(baseResponse.SIGNUP_EMAIL_ERROR_TYPE));
-
-    // 기타 등등 - 추가하기
-
+    //if(!profileImgUrl)
+        //return res.send(response(baseResponse.))
 
     const signUpResponse = await userService.createUser(
         email,
