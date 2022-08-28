@@ -41,7 +41,7 @@ exports.postUsers = async function (req, res) {
 
     console.log(typeof userId);
     if(isNaN(userId))
-        console.log("userId를 정상적인 값으로 보내주세요");
+        return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
 
     if(!userName)
         return res.send(response(baseResponse.USER_NAME_EMPTY));
