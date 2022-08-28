@@ -31,26 +31,20 @@ exports.postUsers = async function (req, res) {
     *      profileImgUrl:
     *   }
     **/
-    const {userId,userName,profileImgUrl} = req.body;
+    // const {userId,userName,profileImgUrl} = req.body;
 
-    // 빈 값 체크
-    if (!userId)
-        return res.send(response(baseResponse.USER_USERID_EMPTY));
+    // // 빈 값 체크
+    // if (!userId)
+    //     return res.send(response(baseResponse.USER_USERID_EMPTY));
+    console.dir("post user 요청 왔음");
+    
+    // const signUpResponse = await userService.createUser(
+    //     email,
+    //     password,
+    //     nickname
+    // );
 
-   
-    //if(!userName)
-       // return res.send(response(baseResponse.));
-
-    //if(!profileImgUrl)
-        //return res.send(response(baseResponse.))
-
-    const signUpResponse = await userService.createUser(
-        email,
-        password,
-        nickname
-    );
-
-    return res.send(signUpResponse);
+    return res.send(response(baseresponse.SUCCESS,req.body));
 };
 
 /**
