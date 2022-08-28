@@ -23,26 +23,33 @@ exports.getTest = async function (req, res) {
 
  */
 exports.postUsers = async function (req, res) {
-
-   /** 
+/** 
     *   body: {
-    *      uuid:
-    *      userName:
-    *      profileImgUrl:
+    *      userId:
+    *      nickName:
+    *      profile_image:
     *   }
     **/
-    // const {userId,userName,profileImgUrl} = req.body;
+    const {userId,userName,profileImgUrl} = req.body;
 
-    // // 빈 값 체크
-    // if (!userId)
-    //     return res.send(response(baseResponse.USER_USERID_EMPTY));
+    // 빈 값 체크
+    if (!userId)
+        return res.send(response(baseResponse.USER_USERID_EMPTY));
+
+    if(!userName)
+        return res.send(response(baseResponse.USER_NAME_EMPTY));
+    
+    if(!profileImgUrl)
+        return res.send(response(baseResponse.USER_PROFILEIMG_EMPTY));
+    /* userId가 유효한 값인지, userName이 크기가 너무 크진 않을지, profileImgUrl이 Url형식을 지키는지*/
     console.dir("post user 요청 왔음");
     console.dir(req.body);
-    // const signUpResponse = await userService.createUser(
-    //     email,
-    //     password,
-    //     nickname
-    // );
+
+    const signUpResponse = await userService.createUser(
+        userId,
+        userName,
+        profileImgUrl
+    );
 
     return res.send(response(baseResponse.SUCCESS,req.body));
 };
