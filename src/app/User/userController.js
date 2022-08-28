@@ -171,11 +171,11 @@ checkUserIdRange=async function(userId){
     const MAX_INT_UNSIGNED=4294967295; //42억 9496만 7295
 
     if(userId<0){
-        return false;
-    }else if(userId>MAX_INT_UNSIGNED){
-        return false;
-    }else{
         return true;
+    }else if(userId>MAX_INT_UNSIGNED){
+        return true;
+    }else{
+        return false;
     }
     
 }
