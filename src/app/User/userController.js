@@ -36,6 +36,13 @@ exports.postUsers = async function (req, res) {
     if (!userId)
         return res.send(response(baseResponse.USER_USERID_EMPTY));
 
+    if (await checkUserIdRange(userId))
+        return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
+
+    console.log(typeof userId);
+    if(isNaN(userId))
+        console.log("userId를 정상적인 값으로 보내주세요");
+
     if(!userName)
         return res.send(response(baseResponse.USER_NAME_EMPTY));
     
@@ -159,3 +166,16 @@ exports.check = async function (req, res) {
     console.log(userIdResult);
     return res.send(response(baseResponse.TOKEN_VERIFICATION_SUCCESS));
 };
+
+checkUserIdRange=async function(userId){
+    const MAX_INT_UNSIGNED=4294967295; //42억 9496만 7295
+
+    if(userId<0){
+        return false;
+    }else if(userId>MAX_INT_UNSIGNED){
+        return false;
+    }else{
+        return true;
+    }
+    
+}
