@@ -37,14 +37,14 @@ exports.postUsers = async function (req, res) {
     // if (!userId)
     //     return res.send(response(baseResponse.USER_USERID_EMPTY));
     console.dir("post user 요청 왔음");
-    
+    console.dir(req.body);
     // const signUpResponse = await userService.createUser(
     //     email,
     //     password,
     //     nickname
     // );
 
-    return res.send(response(baseresponse.SUCCESS,req.body));
+    return res.send(response(baseResponse.SUCCESS,req.body));
 };
 
 /**
