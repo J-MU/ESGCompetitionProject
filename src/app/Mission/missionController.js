@@ -12,7 +12,6 @@ const {emit} = require("nodemon");
  * [GET] /app/MyChallengeLists/:userId
  */
 exports.getMyMissionLists = async function (req, res) {
-    console.log('여기 들어오나?')
 
     //const userIdFromJWT = req.verifiedToken.userId
     const userId = req.params.userId
@@ -87,6 +86,22 @@ exports.postFriendInMission = async function(req, res) {
     const friendId = req.body.friendId
 
     await missionService.postFriendInMission(groupId, friendId)
+
+    return res.send(response(baseResponse.SUCCESS))
+}
+
+/**
+ * 미션 rule 만들기
+ *
+ */
+
+exports.postMissionRule = async function (req,res) {
+
+    const groupId = req.body.groupId
+    const day = req.body.day
+    const num = req.body.number
+
+    await missionService.postMissionRule(groupId,day, num)
 
     return res.send(response(baseResponse.SUCCESS))
 }

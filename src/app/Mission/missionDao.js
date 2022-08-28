@@ -85,3 +85,13 @@ exports.postFriendInMission = async function(connection, groupId, friendId) {
     `
     await connection.query(postFriendInMissionQuery, groupId, friendId)
 }
+
+//myMission rule 추가
+
+exports.postMissionRule = async function (connection, groupId, day, num) {
+    const insertMissionRuleQuery= `
+        update MyMission set day=${day}, number=${num} where groupId=${groupId}
+    `
+    await connection.query(insertMissionRuleQuery,groupId, day, num)
+}
+

@@ -30,3 +30,11 @@ exports.postFriendInMission = async function(groupId, friendId) {
 
     await missionDao.postFriendInMission(connection,groupId, friendId);
 }
+
+//myMission rule 추가
+
+exports.postMissionRule = async function(groupId, day, num) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    await missionDao.postMissionRule(connection,groupId, day, num);
+}
