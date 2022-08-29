@@ -15,16 +15,7 @@ const {connect} = require("http2");
 
 exports.createUser = async function (email, password, nickname) {
     try {
-        // 이메일 중복 확인
-        const emailRows = await userProvider.emailCheck(email);
-        if (emailRows.length > 0)
-            return errResponse(baseResponse.SIGNUP_REDUNDANT_EMAIL);
-
-        // 비밀번호 암호화
-        const hashedPassword = await crypto
-            .createHash("sha512")
-            .update(password)
-            .digest("hex");
+        return response(baseResponse.SUCCESS);
 
         const insertUserInfoParams = [email, hashedPassword, nickname];
 

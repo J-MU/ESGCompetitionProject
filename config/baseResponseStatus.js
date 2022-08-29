@@ -29,8 +29,11 @@ module.exports = {
     USER_PROFILEIMG_EMPTY : { "isSuccess": false, "code": 2003, "message": "프로필 이미지를 입력해주세요." },
     USER_ID_NOT_MATCH : { "isSuccess": false, "code": 2016, "message": "유저 아이디 값을 확인해주세요" },
 
-
     USER_USERID_INVALID_VALUE:{"isSuccess": false, "code": 2010, "message": "userId값이 정상적인 값이 아닙니다."},
+    USER_NAME_TOO_LONG:{"isSuccess": false, "code": 2011, "message": "userName길이가 너무 깁니다. 20자 이하로 설정해주세요"},
+    USER_NAME_INVALID_VALUE:{"isSuccess": false, "code": 2012, "message": "userName이 부적잘한 Type입니다."},
+
+    PROFILE_IMG_INVALID_VALUE:{"isSuccess": false, "code": 2013, "message": "profileImg가 부적잘한 값입니다."},
     //2050 : mission request error
     MISSION_GROUPID_EMPTY : { "isSuccess": false, "code": 2050, "message": "groupId를 입력해주세요." },
 

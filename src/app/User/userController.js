@@ -30,9 +30,10 @@ exports.postUsers = async function (req, res) {
     *      profile_image:
     *   }
     **/
+    /* userId가 유효한 값인지, userName이 크기가 너무 크진 않을지, profileImgUrl이 Url형식을 지키는지*/
     const {userId,userName,profileImgUrl} = req.body;
 
-    // 빈 값 체크
+    // user Validation
     if (!userId)
         return res.send(response(baseResponse.USER_USERID_EMPTY));
 
@@ -41,14 +42,28 @@ exports.postUsers = async function (req, res) {
 
     console.log(typeof userId);
     if(isNaN(userId))
-        console.log("userId를 정상적인 값으로 보내주세요");
+        return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
 
+    //userName validation
     if(!userName)
         return res.send(response(baseResponse.USER_NAME_EMPTY));
     
+    if(userName.length>20)
+        return res.send(response(baseResponse.USER_NAME_TOO_LONG));
+
+    if(typeof userName === 'string' || userName instanceof String)
+        return res.send(response(baseResponse.USER_NAME_INVALID_VALUE));
+
+    //profileImg validation
     if(!profileImgUrl)
         return res.send(response(baseResponse.USER_PROFILEIMG_EMPTY));
-    /* userId가 유효한 값인지, userName이 크기가 너무 크진 않을지, profileImgUrl이 Url형식을 지키는지*/
+    
+    if(typeof profileImgUrl === 'string' || profileImgUrl instanceof String)
+        return res.send(response(baseResponse.PROFILE_IMG_INVALID_VALUE));
+    
+    const regexp=new RegExp("^(https://)(/.+)");
+    if(!regexp.test(profileImgUrl))
+        return res.send(response(baseResponse.PROFILE_IMG_INVALID_VALUE));
     console.dir("post user 요청 왔음");
     console.dir(req.body);
 
@@ -177,5 +192,4 @@ checkUserIdRange=async function(userId){
     }else{
         return false;
     }
-    
 }
