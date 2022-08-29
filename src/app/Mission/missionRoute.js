@@ -55,5 +55,6 @@ module.exports = function(app) {
     app.post('/app/missionRule' , mission.postMissionRule);
 
     //상세 페이지 불러오기
-   //app.get('/app/MyMissionMainPage', mission.getMymissionMainPage);
+    app.get('/app/MyMissionMainPage', mission.getMymissionMainPage);
+
 };

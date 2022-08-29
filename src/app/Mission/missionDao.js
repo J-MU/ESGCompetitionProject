@@ -95,3 +95,35 @@ exports.postMissionRule = async function (connection, groupId, day, num) {
     await connection.query(insertMissionRuleQuery,groupId, day, num)
 }
 
+//상세 페이지
+
+exports.getMyMissionMainPage = async function(connection, groupId) {
+
+    const selectMyMissionMainPageQuery = `
+        select missionName,
+                DATEDIFF(endDate, startDate) as totaldays,
+               day, number,
+                (DATEDIFF(endDate, startDate) div day * number) as totalNum
+        from MyMission
+        where groupId=?
+    `
+
+    const MyMissionMainPageInfoRows = await connection.query(selectMyMissionMainPageQuery,groupId)
+
+    return MyMissionMainPageInfoRows[0];
+}
+
+//상세페이지 친구 ranking 가져오기
+exports.getFriendsRanking = async function(connection, groupId, userId) {
+    const selectFriendRankingQuery = `
+        select MMF.userId, userName, profileImgUrl , stamp
+        from MyMissionsWithFriends as MMF
+        inner join Users as U on U.userId=MMF.userId
+        where groupId=${groupId}
+        order by field(MMF.userId,${userId}) desc, stamp desc
+    `
+    const FriendsRankingRows = await connection.query(selectFriendRankingQuery,groupId, userId)
+
+    return FriendsRankingRows[0];
+
+}

@@ -105,3 +105,19 @@ exports.postMissionRule = async function (req,res) {
 
     return res.send(response(baseResponse.SUCCESS))
 }
+
+/**
+ * 상세 페이지 불러오기
+ *
+ * /app/MyMissionMainPage
+ */
+
+exports.getMymissionMainPage = async function(req, res){
+
+    const groupId=req.body.groupId
+    const userId=req.body.userId
+
+    const getMyMissionMainPageResponse = await missionProvider.getMyMissionMainPage(groupId, userId);
+
+    return res.send(response(baseResponse.SUCCESS,getMyMissionMainPageResponse));
+}
