@@ -80,6 +80,15 @@ async function updateUserInfo(connection, id, nickname) {
   return updateUserRow[0];
 }
 
+async function userIdCheck(connection, userId) {
+  const userIdCheckQuery = `
+    select userId
+    from Users
+    where userId=?
+  `
+  const userIdRow = await connection.query(userIdCheckQuery, userId);
+  return userIdRow[0];
+}
 
 module.exports = {
   selectUser,
@@ -89,4 +98,5 @@ module.exports = {
   selectUserPassword,
   selectUserAccount,
   updateUserInfo,
+  userIdCheck
 };
