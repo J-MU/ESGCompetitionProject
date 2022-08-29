@@ -15,7 +15,8 @@ const {connect} = require("http2");
 
 exports.createUser = async function (email, password, nickname) {
     try {
-        return response(baseResponse.SUCCESS);
+        //이미 가입되어있는 user인지 확인
+        // 가입되어있지 않은 경우 => 회원가입
 
         const insertUserInfoParams = [email, hashedPassword, nickname];
 

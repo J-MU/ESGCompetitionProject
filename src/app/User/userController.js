@@ -51,17 +51,25 @@ exports.postUsers = async function (req, res) {
     if(userName.length>20)
         return res.send(response(baseResponse.USER_NAME_TOO_LONG));
 
-    if(typeof userName === 'string' || userName instanceof String)
+    
+    if(!(typeof userName === 'string' || userName instanceof String))
         return res.send(response(baseResponse.USER_NAME_INVALID_VALUE));
 
     //profileImg validation
     if(!profileImgUrl)
         return res.send(response(baseResponse.USER_PROFILEIMG_EMPTY));
     
-    if(typeof profileImgUrl === 'string' || profileImgUrl instanceof String)
+    console.log(profileImgUrl);
+    console.log(typeof profileImgUrl)
+    console.log(typeof profileImgUrl === 'string')
+    if(!(typeof profileImgUrl === 'string' || profileImgUrl instanceof String))
         return res.send(response(baseResponse.PROFILE_IMG_INVALID_VALUE));
+
     
-    const regexp=new RegExp("^(https://)(/.+)");
+
+    const regexp=new RegExp("^(https://)(.+)");
+    console.log(profileImgUrl);
+    console.log(regexp.test(profileImgUrl));
     if(!regexp.test(profileImgUrl))
         return res.send(response(baseResponse.PROFILE_IMG_INVALID_VALUE));
     console.dir("post user 요청 왔음");
