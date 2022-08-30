@@ -26,7 +26,7 @@ exports.getMyMissionLists = async function (req, res) {
 
     const getMyMissionListsResponse = await missionProvider.getMyMissionLists(userId);
 
-    return res.send(response(baseResponse.SUCCESS, getMyMissionListsResponse));
+    return res.send(getMyMissionListsResponse);
 
 }
 
@@ -35,6 +35,7 @@ exports.getMyMissionLists = async function (req, res) {
  * [GET] /app/challengeLists
  */
 exports.getMissionLists = async function(req,res) {
+    //TODO 권한 validation
 
     const getMissionListsResponse = await missionProvider.getMissionLists();
 
@@ -51,9 +52,18 @@ exports.postMission = async function(req,res) {
     const userId=1
     const missionId= req.params.missionId
 
+    //userId validation
+    if(!userId){
+        return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
+    }
+
+    if(!missionId){
+        return res.send(errResponse(baseResponse.MISSIONID_EMPTY));
+    }
+
     const postMissionResponse = await missionService.postMission(userId, missionId);
 
-    return res.send(response(baseResponse.SUCCESS, postMissionResponse));
+    return res.send(postMissionResponse);
 }
 
 
@@ -70,9 +80,15 @@ exports.patchMissionName = async function(req,res) {
     if(!groupId) {
         return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
     }
-    await missionService.patchMissionName(groupId, newMissionName);
 
-    return res.send(response(baseResponse.SUCCESS))
+    //newMissionName validation
+    if(!newMissionName) {
+        return res.send(errResponse(baseResponse.NEW_MISSIONNAME_EMPTY));
+    }
+
+    const patchMissionNameResult = await missionService.patchMissionName(groupId, newMissionName);
+
+    return res.send(patchMissionNameResult)
 }
 
 /**

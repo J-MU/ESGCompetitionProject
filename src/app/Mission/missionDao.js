@@ -102,7 +102,7 @@ exports.getMyMissionMainPage = async function(connection, groupId) {
     const selectMyMissionMainPageQuery = `
         select missionName,
                 DATEDIFF(endDate, startDate) as totaldays,
-               day, number,
+                day, number,
                 (DATEDIFF(endDate, startDate) div day * number) as totalNum
         from MyMission
         where groupId=?
@@ -128,6 +128,7 @@ exports.getFriendsRanking = async function(connection, groupId, userId) {
 
 }
 
+
 exports.getRank = async function(connection,userId) {
 
     const getRankQuery =  `
@@ -147,4 +148,28 @@ exports.getRank = async function(connection,userId) {
     const rankLists = await connection.query(getRankQuery);
 
     return  rankLists[0];
+}
+
+//missionId check
+exports.missionIdCheck = async function(connection, missionId) {
+    const missionIdCheckQuery = `
+        select missionId
+        from Missions
+        where missionId=?;
+    `
+    const missionIdRows = await connection.query(missionIdCheckQuery,missionId)
+
+    return missionIdRows[0];
+}
+
+//groupId check
+exports.groupIdCheck = async function(connection, groupId) {
+    const groupIdCheckQuery = `
+        select groupId
+        from MyMission
+        where groupId=?;
+    `
+    const groupIdRows = await connection.query(groupIdCheckQuery,groupId)
+
+    return groupIdRows[0];
 }
