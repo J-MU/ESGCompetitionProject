@@ -3,7 +3,7 @@ const baseResponse = require("../../../config/baseResponseStatus");
 const userDao = require("../User/userDao");
 const {pool} = require("../../../config/database");
 const userProvider = require("../User/userProvider");
-const {errResponse} = require("../../../config/response");
+const {errResponse, response} = require("../../../config/response");
 
 
 
@@ -33,7 +33,7 @@ exports.getMyMissionLists = async function (userId){
     }
     connection.release();
 
-    return MyMissionListsResult;
+    return response(baseResponse.SUCCESS, MyMissionListsResult);
 
 }
 

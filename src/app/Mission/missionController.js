@@ -26,7 +26,7 @@ exports.getMyMissionLists = async function (req, res) {
 
     const getMyMissionListsResponse = await missionProvider.getMyMissionLists(userId);
 
-    return res.send(response(baseResponse.SUCCESS, getMyMissionListsResponse));
+    return res.send(getMyMissionListsResponse);
 
 }
 
@@ -35,6 +35,7 @@ exports.getMyMissionLists = async function (req, res) {
  * [GET] /app/challengeLists
  */
 exports.getMissionLists = async function(req,res) {
+    //TODO 권한 validation
 
     const getMissionListsResponse = await missionProvider.getMissionLists();
 
