@@ -142,7 +142,8 @@ exports.getRank = async function(connection,userId) {
             FROM Friends
             where userFirstId=${userId} or userSecondId=${userId}
         ) as MyFriend
-        on Users.userId=MyFriend.FriendId;
+        on Users.userId=MyFriend.FriendId
+        ORDER BY stamp desc;
     `;
 
     const rankLists = await connection.query(getRankQuery);
