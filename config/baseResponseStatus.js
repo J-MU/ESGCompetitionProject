@@ -2,7 +2,8 @@ module.exports = {
 
     // Success 200
     SUCCESS : { "isSuccess": true, "code": 200, "message":"요청 성공" },
-
+    NEED_SIGNUP:{"isSuccess": true, "code": 2001, "message":"아직 회원이 아닙니다. 회원가입을 진행해주세요"},
+    NOT_NEED_SIGNUP:{"isSuccess": true, "code": 2002, "message":"이미 회원입니다. 회원가입할 필요가 없습니다."},
     // Common
     TOKEN_EMPTY : { "isSuccess": false, "code": 2000, "message":"JWT 토큰을 입력해주세요." },
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 3000, "message":"JWT 토큰 검증 실패" },

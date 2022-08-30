@@ -22,10 +22,10 @@ async function selectUserEmail(connection, email) {
 // userId 회원 조회
 async function selectUserId(connection, userId) {
   const selectUserIdQuery = `
-                 SELECT id, email, nickname 
-                 FROM UserInfo 
-                 WHERE id = ?;
-                 `;
+                SELECT userId
+                FROM Users 
+                WHERE userId = ?;
+                `;
   const [userRow] = await connection.query(selectUserIdQuery, userId);
   return userRow;
 }
