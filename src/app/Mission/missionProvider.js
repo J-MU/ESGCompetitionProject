@@ -76,7 +76,12 @@ exports.getMyMissionMainPage = async function(groupId, userId) {
 exports.getRank = async function (userId) {
     const connection = await pool.getConnection(async (conn) => conn);
 
+    const myInfo=await userProvider.retrieveUser(userId)
     const rankLists = await missionDao.getRank(connection,userId);
     connection.release();
+
+    console.log(myInfo);
+    console.log(rankLists);
+    
     return rankLists;
 }
