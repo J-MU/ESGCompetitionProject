@@ -81,7 +81,7 @@ exports.postUsers = async function (req, res) {
         profileImgUrl
     );
 
-    return res.send(response(baseResponse.SUCCESS,req.body));
+    return res.send(signUpResponse);
 };
 
 /**
@@ -122,7 +122,10 @@ exports.getUserById = async function (req, res) {
     if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
 
     const userByUserId = await userProvider.retrieveUser(userId);
-    return res.send(response(baseResponse.SUCCESS, userByUserId));
+    if(userByUserId)
+        return res.send(response(baseResponse.NOT_NEED_SIGNUP));
+    else
+        return res.send(response(baseResponse.NEED_SIGNUP))
 };
 
 

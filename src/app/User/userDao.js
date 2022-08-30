@@ -21,19 +21,22 @@ async function selectUserEmail(connection, email) {
 
 // userId 회원 조회
 async function selectUserId(connection, userId) {
+  console.log(userId);
   const selectUserIdQuery = `
-                 SELECT id, email, nickname 
-                 FROM UserInfo 
-                 WHERE id = ?;
-                 `;
+                SELECT userId
+                FROM Users 
+                WHERE userId = ?;
+                `;
   const [userRow] = await connection.query(selectUserIdQuery, userId);
+
+  console.log(userRow);
   return userRow;
 }
 
 // 유저 생성
 async function insertUserInfo(connection, insertUserInfoParams) {
   const insertUserInfoQuery = `
-        INSERT INTO UserInfo(email, password, nickname)
+        INSERT INTO Users(userId,userName,profileImgUrl)
         VALUES (?, ?, ?);
     `;
   const insertUserInfoRow = await connection.query(

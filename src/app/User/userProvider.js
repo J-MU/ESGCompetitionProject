@@ -61,6 +61,14 @@ exports.userIdCheck = async function (userId) {
   const connection = await pool.getConnection(async (conn) => conn);
   const userIdCheckResult = await userDao.userIdCheck(connection, userId);
   connection.release();
+  
+  console.log("userIdCheckResult");
+
+  console.log(userIdCheckResult.length)
+  if(userIdCheckResult.length==0)
+    return false;
+  else
+    return true;
 
   return userIdCheckResult;
 }

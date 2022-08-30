@@ -2,7 +2,8 @@ module.exports = {
 
     // Success 200
     SUCCESS : { "isSuccess": true, "code": 200, "message":"요청 성공" },
-
+    NEED_SIGNUP:{"isSuccess": true, "code": 2001, "message":"아직 회원이 아닙니다. 회원가입을 진행해주세요"},
+    NOT_NEED_SIGNUP:{"isSuccess": true, "code": 2002, "message":"이미 회원입니다. 회원가입할 필요가 없습니다."},
     // Common
     TOKEN_EMPTY : { "isSuccess": false, "code": 2000, "message":"JWT 토큰을 입력해주세요." },
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 3000, "message":"JWT 토큰 검증 실패" },
@@ -28,7 +29,7 @@ module.exports = {
     MISSION_GROUPID_EMPTY : { "isSuccess": false, "code": 2050, "message": "groupId를 입력해주세요." },
 
     // Response error
-
+    ALREADY_REGISTERED_MEMBER:{"isSuccess":false,"code":3000,"message":"이미 등록된 회원입니다."},
     //Connection, Transaction 등의 서버 오류
     DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
     SERVER_ERROR : { "isSuccess": false, "code": 4001, "message": "서버 에러"},

@@ -13,12 +13,18 @@ const {connect} = require("http2");
 
 // Service: Create, Update, Delete 비즈니스 로직 처리
 
-exports.createUser = async function (email, password, nickname) {
+exports.createUser = async function (userId,userName,profileImgUrl) {
     try {
         //이미 가입되어있는 user인지 확인
         // 가입되어있지 않은 경우 => 회원가입
-
-        const insertUserInfoParams = [email, hashedPassword, nickname];
+        const isMember=await userProvider.userIdCheck(userId);
+        console.log(isMember);
+    
+        if(isMember)   // 이미 회원가입이 되어있는 경우
+            return errResponse(baseResponse.ALREADY_REGISTERED_MEMBER);
+        
+        console.log("회원가입 시작");
+        const insertUserInfoParams = [userId,userName,profileImgUrl];
 
         const connection = await pool.getConnection(async (conn) => conn);
 
