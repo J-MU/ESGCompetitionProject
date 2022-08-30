@@ -26,6 +26,7 @@ exports.retrieveUser = async function (userId) {
   const connection = await pool.getConnection(async (conn) => conn);
   const userResult = await userDao.selectUserId(connection, userId);
 
+  console.log(userResult);
   connection.release();
 
   return userResult[0];

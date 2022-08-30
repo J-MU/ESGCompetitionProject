@@ -25,11 +25,13 @@ async function selectUserId(connection, userId) {
   const selectUserIdQuery = `
                 SELECT userId
                 FROM Users 
-                WHERE userId = ?;
+                WHERE userId = ${userId};
                 `;
-  const [userRow] = await connection.query(selectUserIdQuery, userId);
+  const [userRow] = await connection.query(selectUserIdQuery);
 
+  console.log(selectUserIdQuery);
   console.log(userRow);
+  console.log(userId);
   return userRow;
 }
 
