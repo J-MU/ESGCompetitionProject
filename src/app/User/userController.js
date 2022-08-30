@@ -81,7 +81,7 @@ exports.postUsers = async function (req, res) {
         profileImgUrl
     );
 
-    return res.send(response(baseResponse.SUCCESS,req.body));
+    return res.send(signUpResponse);
 };
 
 /**
