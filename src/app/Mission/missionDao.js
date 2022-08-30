@@ -143,6 +143,9 @@ exports.getRank = async function(connection,userId) {
             where userFirstId=${userId} or userSecondId=${userId}
         ) as MyFriend
         on Users.userId=MyFriend.FriendId
+        UNION DISTINCT
+        SELECT userId,userLevel,userName,stamp from Users
+        where userId=${userId}
         ORDER BY stamp desc;
     `;
 
