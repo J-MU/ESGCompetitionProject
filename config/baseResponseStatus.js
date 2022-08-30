@@ -8,11 +8,13 @@ module.exports = {
     TOKEN_VERIFICATION_FAILURE : { "isSuccess": false, "code": 3000, "message":"JWT 토큰 검증 실패" },
     TOKEN_VERIFICATION_SUCCESS : { "isSuccess": true, "code": 1001, "message":"JWT 토큰 검증 성공" }, // ?
 
+    //user 도메일 에러 : 2000~2050
+    USER_USERID_NOT_EXIST : { "isSuccess": false, "code": 2000, "message": "해당 회원이 존재하지 않습니다." },
+
     //Request error
 
     USER_USERID_EMPTY : { "isSuccess": false, "code": 2001, "message": "userId를 입력해주세요." },
     USER_NAME_EMPTY : { "isSuccess": false, "code": 2002, "message": "userName을 입력해주세요." },
-    USER_USERID_NOT_EXIST : { "isSuccess": false, "code": 2013, "message": "해당 회원이 존재하지 않습니다." },
 
     USER_PROFILEIMG_EMPTY : { "isSuccess": false, "code": 2003, "message": "프로필 이미지를 입력해주세요." },
     USER_ID_NOT_MATCH : { "isSuccess": false, "code": 2016, "message": "유저 아이디 값을 확인해주세요" },

@@ -2,13 +2,21 @@ const missionDao = require(".//missionDao");
 const baseResponse = require("../../../config/baseResponseStatus");
 const userDao = require("../User/userDao");
 const {pool} = require("../../../config/database");
+const userProvider = require("../User/userProvider");
+const {errResponse} = require("../../../config/response");
+
 
 
 exports.getMyMissionLists = async function (userId){
     const connection = await pool.getConnection(async (conn) => conn);
     //userId db에 있는지 체크
 
-    const userIdCheck = await missionDao.userIdCheck(connection, userId);
+    const userIdCheck = await userProvider.userIdCheck(userId);
+
+    if (userIdCheck.length<=0){
+
+        return (errResponse(baseResponse.USER_USERID_NOT_EXIST));
+    }
 
     let MyMissionListsResult
 
