@@ -80,8 +80,7 @@ exports.getRank = async function (userId) {
     const rankLists = await missionDao.getRank(connection,userId);
     connection.release();
 
-    console.log(myInfo);
+    rankLists.unshift(myInfo);
     console.log(rankLists);
-    
     return rankLists;
 }
