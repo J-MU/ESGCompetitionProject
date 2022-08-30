@@ -127,3 +127,24 @@ exports.getFriendsRanking = async function(connection, groupId, userId) {
     return FriendsRankingRows[0];
 
 }
+
+exports.getRank = async function(connection,userId) {
+
+    const getRankQuery =  `
+        select userId,userLevel,userName,stamp from Users
+        RIGHT JOIN (
+            SELECT CASE
+                    WHEN(userFirstId=${userId}) THEN userSecondId
+                    WHEN(userSecondId=${userId}) THEN userFirstId
+                ELSE 'error'
+                END AS 'FriendId'
+            FROM Friends
+            where userFirstId=${userId} or userSecondId=${userId}
+        ) as MyFriend
+        on Users.userId=MyFriend.FriendId;
+    `;
+
+    const rankLists = await connection.query(getRankQuery);
+
+    return  rankLists[0];
+}

@@ -121,3 +121,11 @@ exports.getMymissionMainPage = async function(req, res){
 
     return res.send(response(baseResponse.SUCCESS,getMyMissionMainPageResponse));
 }
+
+exports.getRank=async function(req,res){
+    const userId=req.params.userId;
+
+    const getRankResponse=await missionProvider.getRank(userId);
+    
+    return res.send(response(baseResponse.SUCCESS,getRankResponse));
+}

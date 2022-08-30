@@ -57,4 +57,6 @@ module.exports = function(app) {
     //상세 페이지 불러오기
     app.get('/app/MyMissionMainPage', mission.getMymissionMainPage);
 
+    // 주간 랭킹 API
+    app.get('/app/friends/rank/:userId',mission.getRank);
 };
