@@ -12,6 +12,13 @@ module.exports = {
     //user 도메일 에러 : 2000~2050
     USER_USERID_NOT_EXIST : { "isSuccess": false, "code": 2000, "message": "해당 회원이 존재하지 않습니다." },
 
+
+    //Mission 에러 : 2100~2200
+    MISSIONID_EMPTY :  { "isSuccess": false, "code": 2100, "title": "request parameter 존재 여부", "detail": "missionId를 입력해주세요.", "instance" : "/app/MyMission/:missionId"},
+    MISSION_NOT_EXIST :  { "isSuccess": false, "code": 2101, "title": "missionId값 존재 여부", "detail": "해당 미션이 존재하지 않습니다. 올바른 id 값을 넣어주세요.", "instance" : "/app/MyMission/:missionId"},
+    MISSION_GROUPID_EMPTY : { "isSuccess": false, "code": 2102, "title": "request body 존재 여부", "detail": "groupId를 입력해주세요.", "instance" : "/app/MyMission/missionName" },
+    NEW_MISSIONNAME_EMPTY : { "isSuccess": false, "code": 2103, "title": "request body 존재 여부", "detail": "수정할 미션 이름을 입력해주세요.", "instance" : "/app/MyMission/missionName" },
+    GROUP_NOT_EXIST : { "isSuccess": false, "code": 2104, "title": "groupId값 존재 여부", "detail": "해당 그룹이 존재하지 않습니다. 올바른 id값을 넣어주세요.", "instance" : "/app/MyMission/missionName"},
     //Request error
 
     USER_USERID_EMPTY : { "isSuccess": false, "code": 2001, "message": "userId를 입력해주세요." },
@@ -26,7 +33,7 @@ module.exports = {
 
     PROFILE_IMG_INVALID_VALUE:{"isSuccess": false, "code": 2013, "message": "profileImg가 부적잘한 값입니다."},
     //2050 : mission request error
-    MISSION_GROUPID_EMPTY : { "isSuccess": false, "code": 2050, "message": "groupId를 입력해주세요." },
+
 
     // Response error
     ALREADY_REGISTERED_MEMBER:{"isSuccess":false,"code":3000,"message":"이미 등록된 회원입니다."},

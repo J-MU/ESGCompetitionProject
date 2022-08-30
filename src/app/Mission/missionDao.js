@@ -127,3 +127,27 @@ exports.getFriendsRanking = async function(connection, groupId, userId) {
     return FriendsRankingRows[0];
 
 }
+
+//missionId check
+exports.missionIdCheck = async function(connection, missionId) {
+    const missionIdCheckQuery = `
+        select missionId
+        from Missions
+        where missionId=?;
+    `
+    const missionIdRows = await connection.query(missionIdCheckQuery,missionId)
+
+    return missionIdRows[0];
+}
+
+//groupId check
+exports.groupIdCheck = async function(connection, groupId) {
+    const groupIdCheckQuery = `
+        select groupId
+        from MyMission
+        where groupId=?;
+    `
+    const groupIdRows = await connection.query(groupIdCheckQuery,groupId)
+
+    return groupIdRows[0];
+}
