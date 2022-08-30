@@ -28,7 +28,7 @@ module.exports = {
     MISSION_GROUPID_EMPTY : { "isSuccess": false, "code": 2050, "message": "groupId를 입력해주세요." },
 
     // Response error
-
+    ALREADY_REGISTERED_MEMBER:{"isSuccess":false,"code":3000,"message":"이미 등록된 회원입니다."},
     //Connection, Transaction 등의 서버 오류
     DB_ERROR : { "isSuccess": false, "code": 4000, "message": "데이터 베이스 에러"},
     SERVER_ERROR : { "isSuccess": false, "code": 4001, "message": "서버 에러"},

@@ -17,7 +17,10 @@ exports.createUser = async function (userId,userName,profileImgUrl) {
     try {
         //이미 가입되어있는 user인지 확인
         // 가입되어있지 않은 경우 => 회원가입
-
+        const isMember=userProvider.userIdCheck(userId);
+        if(isMember)   // 이미 회원가입이 되어있는 경우
+            return errResponse(baseResponse.ALREADY_REGISTERED_MEMBER);
+            
         const insertUserInfoParams = [userId,userName,profileImgUrl];
 
         const connection = await pool.getConnection(async (conn) => conn);
