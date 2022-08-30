@@ -21,12 +21,15 @@ async function selectUserEmail(connection, email) {
 
 // userId 회원 조회
 async function selectUserId(connection, userId) {
+  console.log(userId);
   const selectUserIdQuery = `
                 SELECT userId
                 FROM Users 
                 WHERE userId = ?;
                 `;
   const [userRow] = await connection.query(selectUserIdQuery, userId);
+
+  console.log(userRow);
   return userRow;
 }
 
