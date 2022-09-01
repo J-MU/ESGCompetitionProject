@@ -71,6 +71,5 @@ exports.userIdCheck = async function (userId) {
   else
     return true;
 
-  return userIdCheckResult;
 }
 

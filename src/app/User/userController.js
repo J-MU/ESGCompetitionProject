@@ -131,12 +131,6 @@ exports.getUserById = async function (req, res) {
     if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
 
     const userByUserId = await userProvider.retrieveUser(userId);
-    console.log("회원여부 확인!!")
-    console.log(userByUserId);
-    if(userByUserId)
-        return res.send(response(baseResponse.NOT_NEED_SIGNUP));
-    else
-        return res.send(response(baseResponse.NEED_SIGNUP))
     
     return res.send(response(baseResponse.SUCCESS,userByUserId));
 };
