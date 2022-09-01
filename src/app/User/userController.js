@@ -23,31 +23,62 @@ exports.getTest = async function (req, res) {
 
  */
 exports.postUsers = async function (req, res) {
-
-   /** 
+/** 
     *   body: {
-    *      uuid:
-    *      userName:
-    *      profileImgUrl:
+    *      userId:
+    *      nickName:
+    *      profile_image:
     *   }
     **/
+    /* userId가 유효한 값인지, userName이 크기가 너무 크진 않을지, profileImgUrl이 Url형식을 지키는지*/
     const {userId,userName,profileImgUrl} = req.body;
 
-    // 빈 값 체크
+    // user Validation
     if (!userId)
         return res.send(response(baseResponse.USER_USERID_EMPTY));
 
-   
-    //if(!userName)
-       // return res.send(response(baseResponse.));
+    if (await checkUserIdRange(userId))
+        return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
 
-    //if(!profileImgUrl)
-        //return res.send(response(baseResponse.))
+    console.log(typeof userId);
+    if(isNaN(userId))
+        return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
+
+    //userName validation
+    if(!userName)
+        return res.send(response(baseResponse.USER_NAME_EMPTY));
+    
+    if(userName.length>20)
+        return res.send(response(baseResponse.USER_NAME_TOO_LONG));
+
+    
+    if(!(typeof userName === 'string' || userName instanceof String))
+        return res.send(response(baseResponse.USER_NAME_INVALID_VALUE));
+
+    //profileImg validation
+    if(!profileImgUrl)
+        return res.send(response(baseResponse.USER_PROFILEIMG_EMPTY));
+    
+    console.log(profileImgUrl);
+    console.log(typeof profileImgUrl)
+    console.log(typeof profileImgUrl === 'string')
+    if(!(typeof profileImgUrl === 'string' || profileImgUrl instanceof String))
+        return res.send(response(baseResponse.PROFILE_IMG_INVALID_VALUE));
+
+    
+
+    const regexp=new RegExp("^(https://)(.+)");
+    console.log(profileImgUrl);
+    console.log(regexp.test(profileImgUrl));
+    if(!regexp.test(profileImgUrl))
+        return res.send(response(baseResponse.PROFILE_IMG_INVALID_VALUE));
+    console.dir("post user 요청 왔음");
+    console.dir(req.body);
 
     const signUpResponse = await userService.createUser(
-        email,
-        password,
-        nickname
+        userId,
+        userName,
+        profileImgUrl
     );
 
     return res.send(signUpResponse);
@@ -60,7 +91,9 @@ exports.postUsers = async function (req, res) {
  */
 exports.getUsers = async function (req, res) {
 
-
+    /**
+     * Query String: email
+     */
     const email = req.query.email;
 
     if (!email) {
@@ -81,7 +114,6 @@ exports.getUsers = async function (req, res) {
  */
 exports.getUserById = async function (req, res) {
 
-    
     /**
      * pathVaraible:
      * 1. userId
@@ -92,13 +124,21 @@ exports.getUserById = async function (req, res) {
      * 3. 이름
      * 4. 대표뱃지 4개
      */
-    const userId = req.params.userId;
 
+    const userId = req.params.userId;
+    console.log("request userId 확인");
+    console.log(userId);
     if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
 
     const userByUserId = await userProvider.retrieveUser(userId);
+    console.log("회원여부 확인!!")
+    console.log(userByUserId);
+    if(userByUserId)
+        return res.send(response(baseResponse.NOT_NEED_SIGNUP));
+    else
+        return res.send(response(baseResponse.NEED_SIGNUP))
     
-    return res.send(response(baseResponse.SUCCESS, userByUserId));
+    return res.send(response(baseResponse.SUCCESS,userByUserId));
 };
 
 
@@ -165,3 +205,15 @@ exports.check = async function (req, res) {
     console.log(userIdResult);
     return res.send(response(baseResponse.TOKEN_VERIFICATION_SUCCESS));
 };
+
+checkUserIdRange=async function(userId){
+    const MAX_INT_UNSIGNED=4294967295; //42억 9496만 7295
+
+    if(userId<0){
+        return true;
+    }else if(userId>MAX_INT_UNSIGNED){
+        return true;
+    }else{
+        return false;
+    }
+}

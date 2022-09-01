@@ -21,6 +21,7 @@ async function selectUserEmail(connection, email) {
 
 // userId 회원 조회
 async function selectUserId(connection, userId) {
+  console.log(userId);
   const selectUserIdQuery = `
   SELECT userId,userLevel,userName,stamp,profileImgUrl,representativeBadge1,representativeBadge2,representativeBadge3,representativeBadge4
   FROM Users
@@ -33,7 +34,7 @@ async function selectUserId(connection, userId) {
 // 유저 생성
 async function insertUserInfo(connection, insertUserInfoParams) {
   const insertUserInfoQuery = `
-        INSERT INTO UserInfo(email, password, nickname)
+        INSERT INTO Users(userId,userName,profileImgUrl)
         VALUES (?, ?, ?);
     `;
   const insertUserInfoRow = await connection.query(
@@ -80,6 +81,15 @@ async function updateUserInfo(connection, id, nickname) {
   return updateUserRow[0];
 }
 
+async function userIdCheck(connection, userId) {
+  const userIdCheckQuery = `
+    select userId
+    from Users
+    where userId=?
+  `
+  const userIdRow = await connection.query(userIdCheckQuery, userId);
+  return userIdRow[0];
+}
 
 module.exports = {
   selectUser,
@@ -89,4 +99,5 @@ module.exports = {
   selectUserPassword,
   selectUserAccount,
   updateUserInfo,
+  userIdCheck
 };

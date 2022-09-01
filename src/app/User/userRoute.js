@@ -31,7 +31,9 @@ module.exports = function(app){
  *    post:
  *      tags:
  *      - User
- *      description: 회원가입 API
+ *      description: 회원가입 API<br>
+ *                   Kakao를 통해 회원가입 한 유저의 정보를<br>
+ *                   서비스의 DB에 저장한다.
  *      produces:
  *      - application/json
  *      parameters:
