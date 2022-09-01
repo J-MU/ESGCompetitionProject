@@ -35,12 +35,21 @@ module.exports = function(app){
  *      produces:
  *      - application/json
  *      parameters:
- *        - in: query
- *          name: category
+ *        - in: body
+ *          name: user
+ *          description: The user to create.
  *          required: false
  *          schema:
- *            type: integer
- *            description: 카테고리
+ *            type: object
+ *            required:
+ *              - userId
+ *              - profileImg
+ *            properties:
+ *              userId:
+ *                  type: integer
+ *              profileImg:
+ *                  type: string
+ *          
  *      responses:
  *       200:
  *        description: 테스트 API 정상 작동
@@ -48,7 +57,7 @@ module.exports = function(app){
     // 1. 유저 생성 (회원가입) API
     app.post('/app/users', user.postUsers);
 
-    // 2. 유저 조회 API (+ 검색)
+    // 2. 유저 조회 API (=유저 프로필 정보)
     app.get('/app/users',user.getUsers); 
 
     // 3. 특정 유저 조회 API

@@ -60,9 +60,7 @@ exports.postUsers = async function (req, res) {
  */
 exports.getUsers = async function (req, res) {
 
-    /**
-     * Query String: email
-     */
+
     const email = req.query.email;
 
     if (!email) {
@@ -83,14 +81,23 @@ exports.getUsers = async function (req, res) {
  */
 exports.getUserById = async function (req, res) {
 
+    
     /**
-     * Path Variable: userId
+     * pathVaraible:
+     * 1. userId
+     * 
+     * Return: 
+     * 1. 프로필 이미지
+     * 2. Level
+     * 3. 이름
+     * 4. 대표뱃지 4개
      */
     const userId = req.params.userId;
 
     if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
 
     const userByUserId = await userProvider.retrieveUser(userId);
+    
     return res.send(response(baseResponse.SUCCESS, userByUserId));
 };
 

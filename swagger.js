@@ -12,7 +12,7 @@ const options = {
       },
       servers: [
         {
-          url: "https://dev.uksfristdomain.shop", // 요청 URL
+          url: "localhost:3001", // 요청 URL
         },
       ],
     },
