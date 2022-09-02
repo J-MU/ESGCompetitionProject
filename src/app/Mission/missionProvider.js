@@ -7,7 +7,7 @@ const {errResponse, response} = require("../../../config/response");
 
 
 
-exports.getMyMissionLists = async function (userId){
+exports.getMyMissionLists = async function (userId,status){
     const connection = await pool.getConnection(async (conn) => conn);
     //userId db에 있는지 체크
 
@@ -20,7 +20,7 @@ exports.getMyMissionLists = async function (userId){
 
     let MyMissionListsResult
 
-    MyMissionListsResult = await missionDao.getMyMissionLists(connection, userId);
+    MyMissionListsResult = await missionDao.getMyMissionLists(connection, userId,status);
 
     //groupId와  userId를 바탕으로 ChallengeLists에 저장된 친구 가져오기
 

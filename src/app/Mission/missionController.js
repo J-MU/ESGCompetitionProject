@@ -15,6 +15,7 @@ exports.getMyMissionLists = async function (req, res) {
 
     //const userIdFromJWT = req.verifiedToken.userId
     const userId = req.params.userId
+    const status=req.query.status; // 진행중인지 완료인지 구분
 
     // if(!userIdFromJWT){
     //     return res.send(errResponse(baseResponse.TOKEN_EMPTY));
@@ -24,7 +25,7 @@ exports.getMyMissionLists = async function (req, res) {
         return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
     }
 
-    const getMyMissionListsResponse = await missionProvider.getMyMissionLists(userId);
+    const getMyMissionListsResponse = await missionProvider.getMyMissionLists(userId,status);
 
     return res.send(getMyMissionListsResponse);
 

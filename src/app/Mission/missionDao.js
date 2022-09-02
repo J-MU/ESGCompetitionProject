@@ -1,14 +1,20 @@
 
-exports.getMyMissionLists = async function (connection, userId){
+exports.getMyMissionLists = async function (connection, userId,status){
+    let dateString="";
+
+    if(status=="completed"){
+        dateString=",MC.createdAt";
+    }
 
     const selectMyMissionListsQuery = `
-        select MCF.groupId, C.missionId, MC.missionName, C.emoji
+        select MCF.groupId, C.missionId, MC.missionName, C.emoji ${dateString}
         from MyMissionsWithFriends as MCF
         inner join MyMission as MC on MC.groupId=MCF.groupId
         inner join Missions as C on C.missionId=MC.missionId
-        where MCF.userId=?;
+        where MCF.userId=${userId} and MC.status="${status}";
     `
-    const MyMissionListsRows = await connection.query(selectMyMissionListsQuery, userId);
+    console.log(selectMyMissionListsQuery);
+    const MyMissionListsRows = await connection.query(selectMyMissionListsQuery);
     return MyMissionListsRows[0];
 
 }
