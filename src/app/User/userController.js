@@ -200,7 +200,7 @@ exports.check = async function (req, res) {
     return res.send(response(baseResponse.TOKEN_VERIFICATION_SUCCESS));
 };
 
-checkUserIdRange=async function(userId){
+exports.checkUserIdRange=async function(userId){
     const MAX_INT_UNSIGNED=4294967295; //42억 9496만 7295
 
     if(userId<0){
