@@ -146,3 +146,11 @@ exports.getRank=async function(req,res){
     
     return res.send(response(baseResponse.SUCCESS,getRankResponse));
 }
+
+exports.receiveRecommendedMission=async function(req,res){
+    
+
+    const getRecommendedMission=await missionProvider.receiveRecommendedMission();
+    
+    return res.send(response(baseResponse.SUCCESS,getRecommendedMission));
+}

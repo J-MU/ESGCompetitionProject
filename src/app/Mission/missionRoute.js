@@ -61,4 +61,7 @@ module.exports = function(app) {
 
     // 주간 랭킹 API
     app.get('/app/friends/rank/:userId',mission.getRank);
+
+    // 추천 미션 가져오기 API
+    app.get('/app/recommended-Mission',mission.receiveRecommendedMission);
 };
