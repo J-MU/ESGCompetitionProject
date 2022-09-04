@@ -23,7 +23,7 @@ async function selectUserEmail(connection, email) {
 async function selectUserId(connection, userId) {
   console.log(userId);
   const selectUserIdQuery = `
-  SELECT userId,userLevel,userName,profileImgUrl,representativeBadge1,representativeBadge2,representativeBadge3,representativeBadge4
+  SELECT userId,userLevel,userName,profileImgUrl,representativeBadge1,representativeBadge2,representativeBadge3
   FROM Users
   WHERE userId = ${userId}
                  `;
