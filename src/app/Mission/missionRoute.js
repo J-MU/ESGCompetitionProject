@@ -48,7 +48,7 @@ module.exports = function(app) {
     //my미션 이름 수정
     app.patch('/app/MyMission/missionName', mission.patchMissionName);
 
-    //여기까지 validation 처리
+    //여기까지 validation 처리 (수고했어요 ^^)
 
     //my미션 친구 추가
     app.post('/app/missionWithFriend' , mission.postFriendInMission);
