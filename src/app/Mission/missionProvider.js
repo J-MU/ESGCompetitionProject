@@ -84,3 +84,13 @@ exports.getRank = async function (userId) {
     console.log(rankLists);
     return rankLists;
 }
+
+//추천 미션 보여주기
+exports.receiveRecommendedMission = async function () {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const recommendedMissionResults = await missionDao.getRecommendedMission(connection);
+    connection.release();
+
+    return recommendedMissionResults;
+}

@@ -64,4 +64,5 @@ module.exports = function(app) {
 
     // 추천 미션 가져오기 API
     app.get('/app/recommended-Mission',mission.receiveRecommendedMission);
+
 };
