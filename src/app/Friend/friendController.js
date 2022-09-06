@@ -1,6 +1,6 @@
 const jwtMiddleware = require("../../../config/jwtMiddleware");
-const friendProvider = require("../../app/Friend/FriendProvider");
-const friendService = require("../../app/Friend/FriendService");
+const friendProvider = require("./friendProvider");
+const friendService = require("./friendService");
 const userController=require("../User/userController");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
@@ -18,7 +18,7 @@ exports.getFriends = async function (req, res) {
     **/
     /* userId가 유효한 값인지*/
     const userId=req.params.userId;
-
+    console.log("friend get api 호출",process.uptime());
     // user Validation
     if (!userId)
         return res.send(response(baseResponse.USER_USERID_EMPTY));
