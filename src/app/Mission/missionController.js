@@ -108,7 +108,7 @@ exports.postFriendInMission = async function(req, res) {
     }
 
     if(!friendId) {
-        return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
+        return res.send(errResponse(baseResponse.FRIENDID_EMPTY));
     }
 
     await missionService.postFriendInMission(groupId, friendId)
@@ -142,7 +142,6 @@ exports.getMymissionMainPage = async function(req, res){
 
     const groupId=req.body.groupId
     const userId=req.body.userId
-
     const getMyMissionMainPageResponse = await missionProvider.getMyMissionMainPage(groupId, userId);
 
     return res.send(response(baseResponse.SUCCESS,getMyMissionMainPageResponse));
