@@ -12,6 +12,7 @@ module.exports = {
     //user 도메일 에러 : 2000~2050
     USER_USERID_NOT_EXIST : { "isSuccess": false, "code": 2000, "message": "해당 회원이 존재하지 않습니다." },
 
+    //
 
     //Mission 에러 : 2100~2200
     MISSIONID_EMPTY :  { "isSuccess": false, "code": 2100, "title": "request parameter 존재 여부", "detail": "missionId를 입력해주세요.", "instance" : "/app/MyMission/:missionId"},

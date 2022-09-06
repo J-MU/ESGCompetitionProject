@@ -183,3 +183,17 @@ exports.groupIdCheck = async function(connection, groupId) {
 
     return groupIdRows[0];
 }
+
+//추천 미션 보여주기
+
+exports.getRecommendedMission = async function(connection) {
+    const getRecommendedMissionQuery = `
+        select bannerId, bannerImage, bannerTitle, eventTitle, eventContent
+        from RecommendedMission
+        order by rand()
+    `
+
+    const recommendedMissionResults = await connection.query(getRecommendedMissionQuery)
+
+    return recommendedMissionResults[0];
+}

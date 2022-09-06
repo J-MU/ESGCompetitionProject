@@ -102,6 +102,15 @@ exports.postFriendInMission = async function(req, res) {
     const groupId = req.body.groupId
     const friendId = req.body.friendId
 
+    //validation
+    if(!groupId) {
+        return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
+    }
+
+    if(!friendId) {
+        return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
+    }
+
     await missionService.postFriendInMission(groupId, friendId)
 
     return res.send(response(baseResponse.SUCCESS))
@@ -148,7 +157,6 @@ exports.getRank=async function(req,res){
 }
 
 exports.receiveRecommendedMission=async function(req,res){
-    
 
     const getRecommendedMission=await missionProvider.receiveRecommendedMission();
     
