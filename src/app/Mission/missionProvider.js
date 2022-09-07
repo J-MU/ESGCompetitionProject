@@ -31,6 +31,7 @@ exports.getMyMissionLists = async function (userId,status){
 
         MyMissionListsResult[i].friends = FriendsParticipatedInMissionResult;
     }
+    console.log(MyMissionListsResult[0]);
     connection.release();
 
     return response(baseResponse.SUCCESS, MyMissionListsResult);

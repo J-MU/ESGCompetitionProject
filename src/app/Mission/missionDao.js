@@ -3,7 +3,7 @@ exports.getMyMissionLists = async function (connection, userId,status){
     let dateString="";
 
     if(status=="completed"){
-        dateString=",MC.createdAt";
+        dateString=",date_format(MC.endDate,'%Y-%m-%d') as endDate";
     }
 
     const selectMyMissionListsQuery = `
