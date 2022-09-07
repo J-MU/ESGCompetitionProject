@@ -142,8 +142,8 @@ exports.getFriendsRanking = async function(connection, groupId, userId) {
 exports.getRank = async function(connection,userId) {
 
     const getRankQuery =  `
-    SELECT userId,userLevel,userName,stamp,,rank() over(order by stamp desc) as ranking FROM(
-        select userId,userLevel,userName,stampfrom Users
+    SELECT userId,userLevel,userName,stamp,rank() over(order by stamp desc) as ranking FROM(
+        select userId,userLevel,userName,stamp from Users
         RIGHT JOIN (
             SELECT CASE
                     WHEN(userFirstId=${userId}) THEN userSecondId
@@ -158,7 +158,7 @@ exports.getRank = async function(connection,userId) {
         SELECT userId,userLevel,userName,stamp from Users
         where userId=${userId}
         ORDER BY stamp DESC LIMIT 3
-        ) AS TotalRA;
+        ) AS TotalRank;
     `;
 
     const rankLists = await connection.query(getRankQuery);
