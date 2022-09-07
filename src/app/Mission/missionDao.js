@@ -122,11 +122,15 @@ exports.getMyMissionMainPage = async function(connection, groupId) {
 //상세페이지 친구 ranking 가져오기
 exports.getFriendsRanking = async function(connection, groupId, userId) {
     const selectFriendRankingQuery = `
-        select MMF.userId, userName, profileImgUrl , stamp
+        select MMF.userId, U.userName, U.profileImgUrl, MMF.stamp, '0' as ranking
         from MyMissionsWithFriends as MMF
-        inner join Users as U on U.userId=MMF.userId
-        where groupId=${groupId}
-        order by field(MMF.userId,${userId}) desc, stamp desc
+                 inner join Users as U on U.userId=MMF.userId
+        where groupId=${groupId} and U.userId=(${userId})
+        union
+        select MMF.userId, U.userName, U.profileImgUrl, MMF.stamp, rank() over(order by MMF.stamp desc) as ranking
+        from MyMissionsWithFriends as MMF
+                 inner join Users as U on U.userId=MMF.userId
+        where groupId=${groupId} and U.userId not in (${userId})
     `
     const FriendsRankingRows = await connection.query(selectFriendRankingQuery,groupId, userId)
 
