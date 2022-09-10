@@ -7,7 +7,7 @@ exports.getMyMissionLists = async function (connection, userId,status){
     }
 
     const selectMyMissionListsQuery = `
-        select MCF.groupId, C.missionId, MC.missionName, date_format(MC.createdAt,'%Y-%m-%d') as startDate ${dateString}
+        select MCF.groupId, C.missionId, MC.missionName, date_format(MC.createdAt,'%Y-%m-%d') as startDate,MC.groupId ${dateString}
         from MyMissionsWithFriends as MCF
         inner join MyMission as MC on MC.groupId=MCF.groupId
         inner join Missions as C on C.missionId=MC.missionId
