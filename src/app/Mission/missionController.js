@@ -117,6 +117,18 @@ exports.postFriendInMission = async function(req, res) {
 }
 
 /**
+ * 친구목록 가져오는 API
+ */
+exports.getFriendLists = async function (req,res) {
+
+    const userId = req.params.userId
+    const groupId = req.query.groupId
+
+    const getFriendListsResult = await missionProvider.getFriendLists(userId, groupId);
+
+    return res.send(response(baseResponse.SUCCESS,getFriendListsResult));
+}
+/**
  * 미션 rule 만들기
  *
  */
