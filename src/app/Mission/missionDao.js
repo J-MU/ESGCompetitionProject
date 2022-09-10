@@ -3,7 +3,7 @@ exports.getMyMissionLists = async function (connection, userId,status){
     let dateString="";
 
     if(status=="completed"){
-        dateString=",MC.createdAt";
+        dateString=",date_format(MC.endDate,'%Y-%m-%d') as endDate";
     }
 
     const selectMyMissionListsQuery = `
@@ -142,7 +142,11 @@ exports.getFriendsRanking = async function(connection, groupId, userId) {
 exports.getRank = async function(connection,userId) {
 
     const getRankQuery =  `
-        select userId,userLevel,userName,stamp from Users
+    SELECT userId,userLevel,userName,stamp,profileImgUrl,rank() over(order by stamp desc) as ranking FROM Users
+    WHERE userId=${userId}
+    UNION ALL
+    SELECT userId,userLevel,userName,stamp,profileImgUrl,rank() over(order by stamp desc) as ranking FROM(
+        select userId,userLevel,userName,stamp,profileImgUrl from Users
         RIGHT JOIN (
             SELECT CASE
                     WHEN(userFirstId=${userId}) THEN userSecondId
@@ -154,9 +158,10 @@ exports.getRank = async function(connection,userId) {
         ) as MyFriend
         on Users.userId=MyFriend.FriendId
         UNION DISTINCT
-        SELECT userId,userLevel,userName,stamp from Users
+        SELECT userId,userLevel,userName,stamp,profileImgUrl from Users
         where userId=${userId}
-        ORDER BY stamp desc;
+        ORDER BY stamp DESC LIMIT 3
+        ) AS TotalRank;
     `;
 
     const rankLists = await connection.query(getRankQuery);

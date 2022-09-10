@@ -31,6 +31,7 @@ exports.getMyMissionLists = async function (userId,status){
 
         MyMissionListsResult[i].friends = FriendsParticipatedInMissionResult;
     }
+    console.log(MyMissionListsResult[0]);
     connection.release();
 
     return response(baseResponse.SUCCESS, MyMissionListsResult);
@@ -75,14 +76,12 @@ exports.getMyMissionMainPage = async function(groupId, userId) {
 
 exports.getRank = async function (userId) {
     const connection = await pool.getConnection(async (conn) => conn);
+    const result={};
 
-    const myInfo=await userProvider.retrieveUser(userId)
-    const rankLists = await missionDao.getRank(connection,userId);
+    result.rankLists = await missionDao.getRank(connection,userId);
     connection.release();
 
-    rankLists.unshift(myInfo);
-    console.log(rankLists);
-    return rankLists;
+    return result;
 }
 
 //추천 미션 보여주기

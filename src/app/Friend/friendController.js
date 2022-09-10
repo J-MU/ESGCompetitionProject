@@ -19,6 +19,7 @@ exports.getFriends = async function (req, res) {
     /* userId가 유효한 값인지*/
     const userId=req.params.userId;
     console.log("friend get api 호출",process.uptime());
+    console.log("이거 실행 됨??");
     // user Validation
     if (!userId)
         return res.send(response(baseResponse.USER_USERID_EMPTY));
@@ -32,6 +33,8 @@ exports.getFriends = async function (req, res) {
 
     const friendList = await friendProvider.getFriends(userId);
 
-    return res.send(friendList);
+    console.log("ㅋㅋㅋㅋㅋ 이게 왜 됐지? 지금까지??");
+    console.log(friendList);
+    return res.send(response(baseResponse.SUCCESS,friendList));
 };
 
