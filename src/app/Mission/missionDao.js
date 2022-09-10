@@ -206,3 +206,29 @@ exports.getRecommendedMission = async function(connection) {
 
     return recommendedMissionResults[0];
 }
+
+
+//myMission 친구 추가 리스트
+
+exports.getFriendLists = async function(connection, userId, groupId) {
+    const getFriendListsQuery = `
+        select Users.userId, userName, profileImgUrl
+        from Users
+                 inner join Friends as F on F.userFirstId=Users.userId
+        where userSecondId=${userId} and (userId not in (select userId
+                                                         from MyMissionsWithFriends
+                                                         where groupId=${groupId}))
+        union
+        select Users.userId, userName, profileImgUrl
+        from Users
+                 inner join Friends as F on F.userSecondId=Users.userId
+        where userFirstId=${userId} and (userId not in (select userId
+                                                        from MyMissionsWithFriends
+                                                        where groupId=${groupId}))
+    `
+
+    const FriendListsResults = await connection.query(getFriendListsQuery,userId, groupId)
+
+    return FriendListsResults[0];
+
+}

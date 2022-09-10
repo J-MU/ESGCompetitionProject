@@ -93,3 +93,13 @@ exports.receiveRecommendedMission = async function () {
 
     return recommendedMissionResults;
 }
+
+//myMission 친구 추가 리스트 가져오기
+exports.getFriendLists = async function(userId, groupId) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const FriendListsResults = await missionDao.getFriendLists(connection,userId, groupId);
+    connection.release();
+
+    return FriendListsResults;
+}
