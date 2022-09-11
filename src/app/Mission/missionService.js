@@ -55,6 +55,7 @@ exports.patchMissionName = async function(groupId, newMissionName) {
 
 //myMission 친구 추가
 exports.postFriendInMission = async function(groupId, friendId) {
+    const connection = await pool.getConnection(async (conn) => conn);
     //TODO validation 추가
     //groupId 존재하는지
     const groupIdCheck = await missionDao.groupIdCheck(connection, groupId);
@@ -68,11 +69,14 @@ exports.postFriendInMission = async function(groupId, friendId) {
 
     //friendId 존재하는지
 
-
     //friend가 여기 없는지, 유저의 친구가 맞는지
-    const connection = await pool.getConnection(async (conn) => conn);
 
-    await missionDao.postFriendInMission(connection,groupId, friendId);
+    //friendId list로 받아와서 하나씩 대입
+    for(let i=0; i<friendId.length; i++){
+
+        await missionDao.postFriendInMission(connection,groupId, friendId[i]);
+
+    }
 }
 
 //myMission rule 추가

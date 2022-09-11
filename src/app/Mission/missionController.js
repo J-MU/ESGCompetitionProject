@@ -98,9 +98,8 @@ exports.patchMissionName = async function(req,res) {
  */
 
 exports.postFriendInMission = async function(req, res) {
-
-    const groupId = req.body.groupId
-    const friendId = req.body.friendId
+    const groupId = req.params.groupId
+    const friendId = req.body.friendId //배열로 받아옴
 
     //validation
     if(!groupId) {

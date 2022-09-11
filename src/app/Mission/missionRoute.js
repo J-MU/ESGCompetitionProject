@@ -51,9 +51,10 @@ module.exports = function(app) {
     //여기까지 validation 처리 (수고했어요 ^^)
 
     //my미션 친구 가져오기
-   // app.get('/app/friendLists', mission.getFriendLists);
+    app.get('/app/user/:userId/friendLists/group', mission.getFriendLists);
+
     //my미션 친구 추가
-    app.post('/app/missionWithFriend' , mission.postFriendInMission);
+    app.post('/app/group/:groupId/missionWithFriend' , mission.postFriendInMission);
 
     //rule 추가하기
     app.post('/app/missionRule' , mission.postMissionRule);
