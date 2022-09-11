@@ -123,7 +123,7 @@ exports.getMyMissionMainPage = async function(connection, groupId) {
 exports.getStampDays = async function(connection, groupId,userId) {
 
     const selectStampDaysQuery = `
-        select * from Stamp
+        select groupId,userId,DATE_FORMAT("yyyy-mm-dd",date) from Stamp
         WHERE groupId=${groupId} and userId=${userId};
     `
 
