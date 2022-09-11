@@ -57,6 +57,7 @@ exports.getMyMissionMainPage = async function(groupId, userId) {
 
     const rankingResult = await missionDao.getFriendsRanking(connection, groupId, userId);
 
+    const stampDateList=await missionDao.getStampDays(connection,groupId,userId);
     //친구 목록 프로필 사진 가져오기
     for(let i=1; i<rankingResult.length;i++){
         let friend = {}
