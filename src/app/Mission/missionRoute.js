@@ -3,7 +3,7 @@ module.exports = function(app) {
     const mission = require('./missionController');
     const jwtMiddleware = require('../../../config/jwtMiddleware');
 
-    //my미션 리스트 화면 get
+    //my미션 리스트 화면 get (진행중 미션,완료 미션)
     /**
      * @swagger
      *  /app/MyMissionLists/:userId:
@@ -51,8 +51,7 @@ module.exports = function(app) {
     //여기까지 validation 처리 (수고했어요 ^^)
 
     //my미션 친구 가져오기
-    app.get('/app/user/:userId/friendLists/group', mission.getFriendLists); // /app/user/1/friendLists/group?groupId=12
-
+   // app.get('/app/friendLists', mission.getFriendLists);
     //my미션 친구 추가
     app.post('/app/missionWithFriend' , mission.postFriendInMission);
 
@@ -60,7 +59,7 @@ module.exports = function(app) {
     app.post('/app/missionRule' , mission.postMissionRule);
 
     //상세 페이지 불러오기
-    app.get('/app/MyMissionMainPage', mission.getMymissionMainPage);
+    app.get('/app/MyMissionMainPage/users/:userId/groupId/:groupId', mission.getMymissionMainPage);
 
     // 주간 랭킹 API
     app.get('/app/friends/rank/:userId',mission.getRank);
