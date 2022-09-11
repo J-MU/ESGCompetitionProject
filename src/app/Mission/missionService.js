@@ -15,6 +15,7 @@ exports.postMission = async function (userId, missionId) {
 
     if (userIdCheck.length<=0){
 
+        connection.release();
         return (errResponse(baseResponse.USER_USERID_NOT_EXIST));
     }
 
@@ -23,6 +24,7 @@ exports.postMission = async function (userId, missionId) {
 
     if (missionIdCheck.length<=0){
 
+        connection.release();
         return (errResponse(baseResponse.USER_USERID_NOT_EXIST));
     }
 
@@ -44,12 +46,14 @@ exports.patchMissionName = async function(groupId, newMissionName) {
 
     if (groupIdCheck.length<=0){
 
+        connection.release();
         return (errResponse(baseResponse.GROUP_NOT_EXIST));
+
     }
 
     //user가 groupId 사람이 맞는지 check
     await missionDao.patchMissionName(connection,groupId, newMissionName);
-
+    connection.release();
     return response(baseResponse.SUCCESS);
 }
 
@@ -62,7 +66,9 @@ exports.postFriendInMission = async function(groupId, friendId) {
 
     if (groupIdCheck.length<=0){
 
+        connection.release();
         return (errResponse(baseResponse.GROUP_NOT_EXIST));
+
     }
 
     //유저가 group에 속해있는지
@@ -73,7 +79,7 @@ exports.postFriendInMission = async function(groupId, friendId) {
 
     //friendId list로 받아와서 하나씩 대입
     for(let i=0; i<friendId.length; i++){
-
+        connection.release();
         await missionDao.postFriendInMission(connection,groupId, friendId[i]);
 
     }
@@ -85,4 +91,19 @@ exports.postMissionRule = async function(groupId, day, num) {
     const connection = await pool.getConnection(async (conn) => conn);
 
     await missionDao.postMissionRule(connection,groupId, day, num);
+
+    connection.release();
+}
+
+//좋아요 추가 API
+
+exports.postConfirmationPageLike = async function(userId,Id) {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const postMissionInsertId = await missionDao.postConfirmationPageLike(connection,userId,Id);
+
+    connection.release();
+
+    return;
 }

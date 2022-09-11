@@ -105,3 +105,29 @@ exports.getFriendLists = async function(userId, groupId) {
 
     return FriendListsResults;
 }
+
+//인증 페이지 가져오기 API
+exports.getConfirmationPage = async function(groupId) {
+
+    let confirmationPageResults;
+
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    confirmationPageResults = await missionDao.getConfirmationPage(connection, groupId);
+
+    for(let i=0; i<confirmationPageResults.length; i++) {
+
+        const confirmationImgResults = await missionDao.getConfirmationImg(connection, confirmationPageResults[i].Id);
+
+        confirmationPageResults[i].ImgUrl = []
+        for(let j=0; j<confirmationImgResults.length; j++){
+
+            confirmationPageResults[i].ImgUrl.push(confirmationImgResults[j].imgUrl)
+
+        }
+    }
+
+    connection.release();
+
+    return  confirmationPageResults;
+}
