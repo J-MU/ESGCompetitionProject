@@ -70,7 +70,8 @@ exports.getMyMissionMainPage = async function(groupId, userId) {
     MyMissionMainPageResult.missionMainPageInfo = missionMainPageInfo
     MyMissionMainPageResult.friendLists = friendsList
     MyMissionMainPageResult.rankingLists = rankingResult
-
+    MyMissionMainPageResult.stampDays=stampDays
+    
     connection.release();
     return MyMissionMainPageResult;
 }

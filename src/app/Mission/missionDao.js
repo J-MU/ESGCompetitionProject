@@ -119,6 +119,19 @@ exports.getMyMissionMainPage = async function(connection, groupId) {
     return MyMissionMainPageInfoRows[0];
 }
 
+// 상세페이지 Stamp받은날 불러오기
+exports.getStampDays = async function(connection, groupId,userId) {
+
+    const selectStampDaysQuery = `
+        select * from Stamp
+        WHERE groupId=${groupId} and userId=${userId};
+    `
+
+    const StampDays = await connection.query(selectStampDaysQuery,groupId)
+
+    return StampDays[0];
+}
+
 //상세페이지 친구 ranking 가져오기
 exports.getFriendsRanking = async function(connection, groupId, userId) {
     const selectFriendRankingQuery = `
