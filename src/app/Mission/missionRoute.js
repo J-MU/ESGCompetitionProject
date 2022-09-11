@@ -54,7 +54,7 @@ module.exports = function(app) {
     app.get('/app/user/:userId/friendLists/group', mission.getFriendLists);
 
     //my미션 친구 추가
-    app.post('/app/missionWithFriend' , mission.postFriendInMission);
+    app.post('/app/group/:groupId/missionWithFriend' , mission.postFriendInMission);
 
     //rule 추가하기
     app.post('/app/missionRule' , mission.postMissionRule);
