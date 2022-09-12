@@ -107,6 +107,34 @@ exports.postConfirmationPageLike = async function(userId,feedId) {
         console.log("pre query");
         const postMissionInsertId = await missionDao.postConfirmationPageLike(connection,userId,feedId);
         console.log("query 1");
+        const updateLikeNum=await missionDao.addLikeNum(connection,feedId);
+        console.log("query2");
+        await connection.commit();
+    }catch(err){
+        console.log(err);
+        await connection.rollback();
+    }finally{
+
+        connection.release();
+    }
+    
+    console.log("service end");
+    return;
+}
+
+//좋아요 삭제 API
+
+exports.deleteConfirmationPageLike = async function(userId,feedId) {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try{
+        await connection.beginTransaction();
+        
+        console.log("pre query");
+        const deleteConfirmationPageLikeResult = await missionDao.postConfirmationPageLike(connection,userId,feedId);
+        console.log("query 1");
+        console.log(deleteConfirmationPageLikeResult);
         const updateLikeNum=await missionDao.updateLikeNum(connection,feedId);
         console.log("query2");
         await connection.commit();

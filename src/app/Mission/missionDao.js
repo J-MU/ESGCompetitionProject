@@ -279,14 +279,14 @@ exports.getConfirmationImg = async function(connection, Id) {
 
 exports.postConfirmationPageLike = async function(connection, userId, feedId) {
     const postConfirmationPageLike = `
-        insert into ConfirmationLike(Id, userId)
-        value(${feedId},${userId})
+        DELETE FROM ConfirmationLike
+        WHERE Id=${feedId} and userId=${userId};
     `
     const confirmationPageLikeResults = await connection.query(postConfirmationPageLike);
 
 
 
-    return ;
+    return confirmationPageLikeResults;
 }
 
 exports.postConfirmationPageLike = async function(connection, feedId) {
