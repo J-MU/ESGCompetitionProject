@@ -50,7 +50,7 @@ exports.getMissionLists = async function(req,res) {
 
 exports.postMission = async function(req,res) {
 
-    const userId=1
+    const userId=1  //TODO userId Default 한번씩 다 확인해보세요.
     const missionId= req.params.missionId
 
     //userId validation
@@ -138,9 +138,9 @@ exports.postMissionRule = async function (req,res) {
     const day = req.body.day
     const num = req.body.number
 
-    await missionService.postMissionRule(groupId,day, num)
+    await missionService.postMissionRule(groupId,day, num);
 
-    return res.send(response(baseResponse.SUCCESS))
+    return res.send(response(baseResponse.SUCCESS));//기다리고있을꺼잖아요
 }
 
 /**
@@ -169,6 +169,13 @@ exports.getRank=async function(req,res){
 exports.receiveRecommendedMission=async function(req,res){
 
     const getRecommendedMission=await missionProvider.receiveRecommendedMission();
+    
+    return res.send(response(baseResponse.SUCCESS,getRecommendedMission));
+}
+
+exports.postMyMission=async function(req,res){
+
+    const postMyMissionResult=await missionService.postMyMission();
     
     return res.send(response(baseResponse.SUCCESS,getRecommendedMission));
 }

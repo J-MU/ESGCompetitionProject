@@ -27,6 +27,8 @@ exports.postMission = async function (userId, missionId) {
     }
 
     const postMissionInsertId = await missionDao.postMission(connection,userId,missionId);
+    console.log("post!!!!");
+    console.log(postMissionInsertId);
     connection.release();
 
     const postMissionResult ={}
@@ -85,4 +87,14 @@ exports.postMissionRule = async function(groupId, day, num) {
     const connection = await pool.getConnection(async (conn) => conn);
 
     await missionDao.postMissionRule(connection,groupId, day, num);
+}
+
+exports.postMyMission = async function(groupId, day, num) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    await missionDao.postMyMission(connection,groupId, day, num);
+
+    connection.release();
+
+    
 }
