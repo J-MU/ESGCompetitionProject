@@ -11,7 +11,8 @@ exports.getMyMissionLists = async function (connection, userId,status){
         from MyMissionsWithFriends as MCF
         inner join MyMission as MC on MC.groupId=MCF.groupId
         inner join Missions as C on C.missionId=MC.missionId
-        where MCF.userId=${userId} and MC.status="${status}";
+        where MCF.userId=${userId} and MC.status="${status}"
+        order by MC.createdAt desc;
     `
     console.log(selectMyMissionListsQuery);
     const MyMissionListsRows = await connection.query(selectMyMissionListsQuery);
@@ -246,4 +247,47 @@ exports.getFriendLists = async function(connection, userId, groupId) {
 
     return FriendListsResults[0];
 
+}
+
+
+//인증페이지 API
+exports.getConfirmationPage = async function(connection, groupId) {
+    const getConfirmationPageQuery = `
+        select Confirmation.Id , userName, profileImgUrl, likeNum, date_format(Confirmation.updatedAt,"%Y-%m-%d") as day
+        from Confirmation
+        inner join Users U on Confirmation.userId = U.userId
+        where groupId=${groupId}
+        order by date_format(Confirmation.updatedAt,"%Y-%m-%d") desc , likeNum desc
+    `
+    const confirmationPageResults = await connection.query(getConfirmationPageQuery,groupId)
+
+    return confirmationPageResults[0];
+}
+
+exports.getConfirmationImg = async function(connection, Id) {
+    const getConfirmationImg = `
+        select imgUrl
+        from ConfirmationImg
+        where Id=${Id}
+    `
+    const confirmationImgResults = await connection.query(getConfirmationImg,Id)
+
+    return confirmationImgResults[0];
+}
+
+//좋아요 추가
+
+exports.postConfirmationPageLike = async function(connection, userId, Id) {
+    const postConfirmationPageLike = `
+        insert into ConfirmationLike(Id, userId)
+        value(${Id},${userId})
+    `
+    const confirmationPageLikeResults = await connection.query(postConfirmationPageLike,userId, Id)
+
+    const updateConfirmationPageLike = `
+        update Confirmation set likeNum = likeNum+1  where Id=${Id}
+    `
+    const confirmationImgResults = await connection.query(updateConfirmationPageLike, Id)
+
+    return ;
 }

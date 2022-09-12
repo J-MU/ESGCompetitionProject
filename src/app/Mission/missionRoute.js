@@ -54,7 +54,7 @@ module.exports = function(app) {
     app.get('/app/user/:userId/friendLists/group', mission.getFriendLists);
 
     //my미션 친구 추가
-    app.post('/app/group/:groupId/missionWithFriend' , mission.postFriendInMission);
+    app.post('/app/group/:groupId/missionWithFriend', mission.postFriendInMission);
 
     //rule 추가하기
     app.post('/app/missionRule' , mission.postMissionRule);
@@ -67,5 +67,15 @@ module.exports = function(app) {
 
     // 추천 미션 가져오기 API
     app.get('/app/recommended-Mission',mission.receiveRecommendedMission);
+
+    // 인증 페이지 가져오기 API
+    app.get('/app/group/:groupId/confirmationPage', mission.getConfirmationPage);
+
+    // 인증하는 페이지 API
+
+    // 좋아요 추가 API
+    app.post('/app/confirmationPage/Id/:Id/like', mission.postConfirmationPageLike);
+
+    // 좋아요 삭제 API
 
 };

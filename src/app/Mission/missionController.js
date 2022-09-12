@@ -173,9 +173,30 @@ exports.receiveRecommendedMission=async function(req,res){
     return res.send(response(baseResponse.SUCCESS,getRecommendedMission));
 }
 
-exports.postMyMission=async function(req,res){
+/**
+ * 인증하는 API
+ *
+ */
 
-    const postMyMissionResult=await missionService.postMyMission();
-    
-    return res.send(response(baseResponse.SUCCESS,getRecommendedMission));
+exports.getConfirmationPage = async function(req,res) {
+
+    const groupId = req.params.groupId;
+
+    const getConfirmationPageResponse=await missionProvider.getConfirmationPage(groupId);
+
+    return res.send(response(baseResponse.SUCCESS,getConfirmationPageResponse));
+}
+
+// 좋아요 추가 API
+
+exports.postConfirmationPageLike = async function(req, res) {
+
+    //TODO JWT
+    const userId = 2;
+    const Id = req.params.Id;
+
+    const postConfirmationPageLikeResponse = await missionService.postConfirmationPageLike(userId,Id);
+
+    return res.send(response(baseResponse.SUCCESS));
+
 }
