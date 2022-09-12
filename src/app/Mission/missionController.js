@@ -197,6 +197,8 @@ exports.postConfirmationPageLike = async function(req, res) {
     const userId = 2;
     const feedId = req.params.Id;
 
+    console.log("좋아요 들어옴.!");
+    console.log(feedId);
     const postConfirmationPageLikeResponse = await missionService.postConfirmationPageLike(userId,feedId);
 
     return res.send(response(baseResponse.SUCCESS));

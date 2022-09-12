@@ -104,18 +104,21 @@ exports.postConfirmationPageLike = async function(userId,feedId) {
     try{
         await connection.beginTransaction();
         
+        console.log("pre query");
         const postMissionInsertId = await missionDao.postConfirmationPageLike(connection,userId,feedId);
+        console.log("query 1");
         const updateLikeNum=await missionDao.updateLikeNum(connection,feedId);
-    
+        console.log("query2");
         await connection.commit();
     }catch(err){
         console.log(err);
         await connection.rollback();
     }finally{
+
         connection.release();
     }
     
-
+    console.log("service end");
     return;
 }
 
