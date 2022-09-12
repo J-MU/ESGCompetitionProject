@@ -107,7 +107,7 @@ exports.getFriendLists = async function(userId, groupId) {
 }
 
 //인증 페이지 가져오기 API
-exports.getConfirmationPage = async function(groupId) {
+exports.getConfirmationPage = async function(groupId,userId) {
 
     let confirmationPageResults;
 

@@ -181,8 +181,8 @@ exports.receiveRecommendedMission=async function(req,res){
 exports.getConfirmationPage = async function(req,res) {
 
     const groupId = req.params.groupId;
-
-    const getConfirmationPageResponse=await missionProvider.getConfirmationPage(groupId);
+    const userId=req.query.userId;  //TODO 나중에 JWT로 고칠려고 그냥 QUERY에 일단 넣어놈.
+    const getConfirmationPageResponse=await missionProvider.getConfirmationPage(groupId,userId);
 
     return res.send(response(baseResponse.SUCCESS,getConfirmationPageResponse));
 }
