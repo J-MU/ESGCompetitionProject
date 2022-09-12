@@ -207,7 +207,7 @@ exports.deleteConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
     const userId = 2;
-    const feedId = req.params.Id;
+    const feedId = req.params.feedId;
     // const idontno=req.query.userId;
 
     console.log("좋아요를 삭제하겠습니다 ^^");

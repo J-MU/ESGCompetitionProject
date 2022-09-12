@@ -294,8 +294,9 @@ exports.deleteConfirmationPageLike = async function(connection, userId, feedId) 
         DELETE FROM ConfirmationLike
         WHERE Id=${feedId} and userId=${userId};
     `
-    const deleteConfirmationPageLikeResults = await connection.query(postConfirmationPageLike);
+    console.log(deleteConfirmationPageLike);
 
+    const deleteConfirmationPageLikeResults = await connection.query(deleteConfirmationPageLike);
 
 
     return deleteConfirmationPageLikeResults;
