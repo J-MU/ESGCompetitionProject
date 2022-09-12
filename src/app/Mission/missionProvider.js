@@ -114,11 +114,9 @@ exports.getConfirmationPage = async function(groupId) {
     const connection = await pool.getConnection(async (conn) => conn);
 
     confirmationPageResults = await missionDao.getConfirmationPage(connection, groupId);
-
     for(let i=0; i<confirmationPageResults.length; i++) {
 
         const confirmationImgResults = await missionDao.getConfirmationImg(connection, confirmationPageResults[i].Id);
-
         confirmationPageResults[i].ImgUrl = []
         for(let j=0; j<confirmationImgResults.length; j++){
 
@@ -126,7 +124,6 @@ exports.getConfirmationPage = async function(groupId) {
 
         }
     }
-
     connection.release();
 
     return  confirmationPageResults;

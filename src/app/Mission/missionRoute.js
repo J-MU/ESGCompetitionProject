@@ -68,7 +68,7 @@ module.exports = function(app) {
     // 추천 미션 가져오기 API
     app.get('/app/recommended-Mission',mission.receiveRecommendedMission);
 
-    // 인증 페이지 가져오기 API
+    // Feed 페이지 가져오기 API
     app.get('/app/group/:groupId/confirmationPage', mission.getConfirmationPage);
 
     // 인증하는 페이지 API

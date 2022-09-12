@@ -97,13 +97,24 @@ exports.postMissionRule = async function(groupId, day, num) {
 
 //좋아요 추가 API
 
-exports.postConfirmationPageLike = async function(userId,Id) {
+exports.postConfirmationPageLike = async function(userId,feedId) {
 
     const connection = await pool.getConnection(async (conn) => conn);
 
-    const postMissionInsertId = await missionDao.postConfirmationPageLike(connection,userId,Id);
-
-    connection.release();
+    try{
+        await connection.beginTransaction();
+        
+        const postMissionInsertId = await missionDao.postConfirmationPageLike(connection,userId,feedId);
+        const updateLikeNum=await missionDao.updateLikeNum(connection,feedId);
+    
+        await connection.commit();
+    }catch(err){
+        console.log(err);
+        await connection.rollback();
+    }finally{
+        connection.release();
+    }
+    
 
     return;
 }

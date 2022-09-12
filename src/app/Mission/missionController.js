@@ -182,6 +182,8 @@ exports.getConfirmationPage = async function(req,res) {
 
     const groupId = req.params.groupId;
 
+    console.log("좋아요~");
+    console.log(groupId);
     const getConfirmationPageResponse=await missionProvider.getConfirmationPage(groupId);
 
     return res.send(response(baseResponse.SUCCESS,getConfirmationPageResponse));
@@ -193,9 +195,9 @@ exports.postConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
     const userId = 2;
-    const Id = req.params.Id;
+    const feedId = req.params.Id;
 
-    const postConfirmationPageLikeResponse = await missionService.postConfirmationPageLike(userId,Id);
+    const postConfirmationPageLikeResponse = await missionService.postConfirmationPageLike(userId,feedId);
 
     return res.send(response(baseResponse.SUCCESS));
 

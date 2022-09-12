@@ -253,7 +253,7 @@ exports.getFriendLists = async function(connection, userId, groupId) {
 //인증페이지 API
 exports.getConfirmationPage = async function(connection, groupId) {
     const getConfirmationPageQuery = `
-        select Confirmation.Id , userName, profileImgUrl, likeNum, date_format(Confirmation.updatedAt,"%Y-%m-%d") as day
+        select Confirmation.Id , userName,U.userLevel, profileImgUrl, likeNum, date_format(Confirmation.updatedAt,"%Y-%m-%d") as day
         from Confirmation
         inner join Users U on Confirmation.userId = U.userId
         where groupId=${groupId}
@@ -277,17 +277,25 @@ exports.getConfirmationImg = async function(connection, Id) {
 
 //좋아요 추가
 
-exports.postConfirmationPageLike = async function(connection, userId, Id) {
+exports.postConfirmationPageLike = async function(connection, userId, feedId) {
     const postConfirmationPageLike = `
         insert into ConfirmationLike(Id, userId)
-        value(${Id},${userId})
+        value(${feedId},${userId})
     `
-    const confirmationPageLikeResults = await connection.query(postConfirmationPageLike,userId, Id)
+    const confirmationPageLikeResults = await connection.query(postConfirmationPageLike);
 
+
+
+    return ;
+}
+
+exports.postConfirmationPageLike = async function(connection, feedId) {
+    
     const updateConfirmationPageLike = `
-        update Confirmation set likeNum = likeNum+1  where Id=${Id}
+        update Confirmation set likeNum = likeNum+1  where Id=${feedId}
     `
-    const confirmationImgResults = await connection.query(updateConfirmationPageLike, Id)
+    
+    const confirmationImgResults = await connection.query(updateConfirmationPageLike);
 
     return ;
 }
