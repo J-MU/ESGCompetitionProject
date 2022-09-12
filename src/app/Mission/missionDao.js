@@ -253,22 +253,11 @@ exports.getFriendLists = async function(connection, userId, groupId) {
 //인증페이지 API
 exports.getConfirmationPage = async function(connection, groupId) {
     const getConfirmationPageQuery = `
-        select Confirmation.Id ,
-        userName,
-        U.userLevel,
-        profileImgUrl,
-        likeNum,
-        date_format(Confirmation.updatedAt,"%Y-%m-%d") as day,
-        IF(IsHeart.feedId,true,false) as isHeart
+        select Confirmation.Id , userName,U.userLevel, profileImgUrl, likeNum, date_format(Confirmation.updatedAt,"%Y-%m-%d") as day
         from Confirmation
         inner join Users U on Confirmation.userId = U.userId
-        LEFT JOIN(
-            SELECT Confirmation.Id as feedId,Confirmation.groupId ,CL.userId from Confirmation
-            LEFT JOIN ConfirmationLike CL on Confirmation.Id = CL.Id
-            WHERE CL.userId=${userId} and Confirmation.Id=${feedId}
-        )IsHeart on IsHeart.feedId=Confirmation.Id
-        where Confirmation.groupId=${groupId}
-        order by date_format(Confirmation.updatedAt,"%Y-%m-%d") desc , likeNum desc;
+        where groupId=${groupId}
+        order by date_format(Confirmation.updatedAt,"%Y-%m-%d") desc , likeNum desc
     `
     const confirmationPageResults = await connection.query(getConfirmationPageQuery,groupId)
 
