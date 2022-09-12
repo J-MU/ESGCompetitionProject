@@ -189,6 +189,20 @@ exports.getConfirmationPage = async function(req,res) {
 
 // 좋아요 추가 API
 
+exports.postConfirmationPageLike = async function(req, res) {
+
+    //TODO JWT
+    const userId = 2;
+    const feedId = req.params.Id;
+    // const idontno=req.query.userId;
+
+    console.log("좋아요~!");
+    const postConfirmationPageLikeResponse = await missionService.postConfirmationPageLike(userId,feedId);
+
+    return res.send(response(baseResponse.SUCCESS));
+
+}
+
 exports.deleteConfirmationPageLike = async function(req, res) {
 
     //TODO JWT

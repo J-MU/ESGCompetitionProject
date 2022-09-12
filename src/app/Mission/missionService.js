@@ -132,10 +132,10 @@ exports.deleteConfirmationPageLike = async function(userId,feedId) {
         await connection.beginTransaction();
         
         console.log("pre query");
-        const deleteConfirmationPageLikeResult = await missionDao.postConfirmationPageLike(connection,userId,feedId);
+        const deleteConfirmationPageLikeResult = await missionDao.deleteConfirmationPageLike(connection,userId,feedId);
         console.log("query 1");
         console.log(deleteConfirmationPageLikeResult);
-        const updateLikeNum=await missionDao.updateLikeNum(connection,feedId);
+        const updateLikeNum=await missionDao.deleteLikeNum(connection,feedId);
         console.log("query2");
         await connection.commit();
     }catch(err){

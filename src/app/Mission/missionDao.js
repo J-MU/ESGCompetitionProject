@@ -279,8 +279,8 @@ exports.getConfirmationImg = async function(connection, Id) {
 
 exports.postConfirmationPageLike = async function(connection, userId, feedId) {
     const postConfirmationPageLike = `
-        DELETE FROM ConfirmationLike
-        WHERE Id=${feedId} and userId=${userId};
+        insert into ConfirmationLike(Id, userId)
+        value(${feedId},${userId})
     `
     const confirmationPageLikeResults = await connection.query(postConfirmationPageLike);
 
@@ -289,7 +289,20 @@ exports.postConfirmationPageLike = async function(connection, userId, feedId) {
     return confirmationPageLikeResults;
 }
 
-exports.updateLikeNum = async function(connection, feedId) {
+exports.deleteConfirmationPageLike = async function(connection, userId, feedId) {
+    const deleteConfirmationPageLike = `
+        DELETE FROM ConfirmationLike
+        WHERE Id=${feedId} and userId=${userId};
+    `
+    const deleteConfirmationPageLikeResults = await connection.query(postConfirmationPageLike);
+
+
+
+    return deleteConfirmationPageLikeResults;
+}
+
+
+exports.addLikeNum = async function(connection, feedId) {
     
     const updateConfirmationPageLike = `
         update Confirmation set likeNum = likeNum+1  where Id=${feedId}
@@ -298,4 +311,15 @@ exports.updateLikeNum = async function(connection, feedId) {
     const confirmationImgResults = await connection.query(updateConfirmationPageLike);
 
     return ;
+}
+
+exports.deleteLikeNum = async function(connection, feedId) {
+    
+    const updateConfirmationPageLike = `
+        update Confirmation set likeNum = likeNum-1  where Id=${feedId}
+    `
+    
+    const updateConfirmationPageLikeResults = await connection.query(updateConfirmationPageLike);
+
+    return updateConfirmationPageLikeResults;
 }
