@@ -289,7 +289,7 @@ exports.postConfirmationPageLike = async function(connection, userId, feedId) {
     return ;
 }
 
-exports.postConfirmationPageLike = async function(connection, feedId) {
+exports.updateLikeNum = async function(connection, feedId) {
     
     const updateConfirmationPageLike = `
         update Confirmation set likeNum = likeNum+1  where Id=${feedId}

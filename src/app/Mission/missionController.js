@@ -194,6 +194,7 @@ exports.postConfirmationPageLike = async function(req, res) {
     //TODO JWT
     const userId = 2;
     const feedId = req.params.Id;
+    // const idontno=req.query.userId;
 
     console.log("뭐지 일단 들어옴");
     console.log(feedId);
