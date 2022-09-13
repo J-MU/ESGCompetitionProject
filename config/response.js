@@ -14,7 +14,6 @@ const response = ({isSuccess, code, message}, result) => {
         title: title,
         detail: detail,
         instance: instance
-
       }
   };
   

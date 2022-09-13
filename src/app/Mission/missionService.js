@@ -101,24 +101,31 @@ exports.postConfirmationPageLike = async function(userId,feedId) {
 
     const connection = await pool.getConnection(async (conn) => conn);
 
-    try{
+    try {
         await connection.beginTransaction();
-        
-        console.log("pre query");
+
         const postMissionInsertId = await missionDao.postConfirmationPageLike(connection,userId,feedId);
-        console.log("query 1");
+
         const updateLikeNum=await missionDao.addLikeNum(connection,feedId);
-        console.log("query2");
+
+        const userName = await missionDao.selectUserName(connection,userId);
+
+        const message = `❤  ${userName}님이 회원님의 사진을 좋아합니다.`
+
+        const notificationId = await missionDao.insertNotifications(connection,feedId,message);
+
+        const insertNotifications_Of_FriendLikeResult = await missionDao.insertNotifications_Of_FriendLike(connection,notificationId, userId, feedId);
+
         await connection.commit();
-    }catch(err){
+    }
+    catch(err){
         console.log(err);
         await connection.rollback();
+
     }finally{
 
         connection.release();
     }
-    
-    console.log("service end");
     return;
 }
 
@@ -145,7 +152,6 @@ exports.deleteConfirmationPageLike = async function(userId,feedId) {
 
         connection.release();
     }
-    
     console.log("service end");
     return;
 }
