@@ -11,7 +11,8 @@ module.exports = function(app){
     // 친구 추가 알림 보내기
     app.post('/app/user/friendRequest', friend.postFriendRequestNotification);
 
-    // 친구 추가 API
-    app.post('/app/friends/:userUniqueCode', friend.postUserFriend);
+    // 알림에서 승인 눌러서 친구 추가
+    app.post('/app/friendAcceptance', friend.postNewFriend);
+
 };
 

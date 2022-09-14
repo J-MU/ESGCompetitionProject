@@ -91,7 +91,17 @@ async function userIdCheck(connection, userId) {
   const userIdRow = await connection.query(userIdCheckQuery, userId);
   return userIdRow[0];
 }
+async function selectUserNotifications(connection, userId) {
 
+  const selectUserNotificationsQuery =`
+    select notificationId, message
+    from Notifications
+    where userId=${userId}
+  `
+  const notificationsRow = await connection.query(selectUserNotificationsQuery, userId);
+
+  return notificationsRow[0];
+}
 
 module.exports = {
   selectUser,
@@ -101,5 +111,6 @@ module.exports = {
   selectUserPassword,
   selectUserAccount,
   updateUserInfo,
-  userIdCheck
+  userIdCheck,
+  selectUserNotifications
 };

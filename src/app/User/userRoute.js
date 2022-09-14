@@ -72,7 +72,8 @@ module.exports = function(app){
     // 회원 정보 수정 API (JWT 검증 및 Validation - 메소드 체이닝 방식으로 jwtMiddleware 사용)
     app.patch('/app/users/:userId', jwtMiddleware, user.patchUsers)
 
-
+    // 유저 알림 조회
+    app.get('/app/users/:userId/notifications', user.getNotifications);
 
 };
 

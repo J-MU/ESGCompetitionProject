@@ -205,3 +205,12 @@ exports.checkUserIdRange=async function(userId){
     }
 }
 
+exports.getNotifications = async function(req, res) {
+
+    const userId = req.params.userId
+
+    const getNotificationsResponse = await userProvider.retrieveUserNotifications(userId)
+
+    return res.send(response(baseResponse.SUCCESS,getNotificationsResponse));
+
+}

@@ -49,16 +49,6 @@ exports.getUserFriend = async function (req,res) {
     return res.send(response(baseResponse.SUCCESS,userFriendResponse));
 }
 
-// 친구 추가 API
-exports.postUserFriend = async function(req,res) {
-
-    const userId = 10;
-    const usercode = req.params.userUniqueCode
-
-    const postUserFriendResponse = await friendService.makeUserFriend(usercode,userId);
-
-    return res.send(postUserFriendResponse);
-}
 
 exports.postFriendRequestNotification = async function(req, res) {
 
@@ -68,4 +58,14 @@ exports.postFriendRequestNotification = async function(req, res) {
     const postFriendRequestNotificationResponse = await friendService.notifyFriendRequest(userId,friendcode);
 
     return res.send(postFriendRequestNotificationResponse);
+}
+
+exports.postNewFriend= async function(req, res){
+
+    const userId = 13; //친구 요청 받은 사람
+    const notificationId = req.body.notificationId
+
+    const postNewFriendResponse = await friendService.makeNewFriend(userId,notificationId);
+
+    return res.send(postNewFriendResponse);
 }

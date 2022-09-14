@@ -88,11 +88,25 @@ async function insertNotifications_Of_FriendRequest(connection,notificationId, u
     return;
 
 }
+
+async function selectFriendIdFromNotification(connection,notificationId ) {
+
+    const selectFriendIdQuery = `
+        select friendId
+        from Notificaitons_Of_FriendRequest
+        where notificationId=${notificationId}
+    `
+
+    const friendIdResult = await connection.query(selectFriendIdQuery,notificationId);
+
+    return friendIdResult[0][0].friendId
+}
 module.exports = {
     getFriends,
     selectUserFriend,
     insertUserFriend,
     selectFriendId,
     insertNotifications,
-    insertNotifications_Of_FriendRequest
+    insertNotifications_Of_FriendRequest,
+    selectFriendIdFromNotification
 };

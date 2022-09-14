@@ -7,28 +7,6 @@ const friendDao = require("./friendDao");
 const missionDao = require("../Mission/missionDao");
 
 
-exports.makeUserFriend = async function (usercode,userId) {
-
-    const connection = await pool.getConnection(async (conn) => conn);
-
-    try {
-
-        const friendId = await friendDao.selectFriendId(connection, usercode);
-
-        const makeUserFriendResult = await friendDao.insertUserFriend(connection, friendId,userId);
-
-        return response(baseResponse.SUCCESS);
-
-    } catch (err) {
-        logger.error(`App - editUser Service error\n: ${err.message}`);
-        return errResponse(baseResponse.DB_ERROR);
-    } finally {
-
-        connection.release();
-    }
-
-}
-
 exports.notifyFriendRequest = async function(userId, friendcode) {
     const connection = await pool.getConnection(async (conn) => conn);
 
@@ -41,6 +19,25 @@ exports.notifyFriendRequest = async function(userId, friendcode) {
     const notificationId = await friendDao.insertNotifications(connection,friendId,message);
 
     const insertNotifications_Of_FriendRequestResult = await friendDao.insertNotifications_Of_FriendRequest(connection,notificationId,userId);
+
+    connection.release();
+    return response(baseResponse.SUCCESS);
+}
+
+exports.makeNewFriend = async function(userId, notificationId) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const friendId = await friendDao.selectFriendIdFromNotification(connection, notificationId);
+
+    const makeUserFriendResult = await friendDao.insertUserFriend(connection, userId, friendId);
+
+    const userName = await missionDao.selectUserName(connection,userId);
+
+    const message = `${userName}님과 이제 친구입니다.`
+
+    const sendRequestAcceptanceMessage = await friendDao.insertNotifications(connection, friendId, message);
+
+    connection.release();
 
     return response(baseResponse.SUCCESS);
 }

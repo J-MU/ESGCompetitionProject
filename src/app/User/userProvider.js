@@ -73,4 +73,14 @@ exports.userIdCheck = async function (userId) {
 
 }
 
+exports.retrieveUserNotifications = async function(userId) {
 
+  const connection = await pool.getConnection(async (conn) => conn);
+
+  const userNotificationsResult = await userDao.selectUserNotifications(connection, userId);
+
+  connection.release();
+
+  return userNotificationsResult;
+
+}
