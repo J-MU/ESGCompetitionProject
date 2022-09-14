@@ -21,6 +21,7 @@ module.exports = {
     MISSION_GROUPID_EMPTY : { "isSuccess": false, "code": 2102, "title": "request body 존재 여부", "detail": "groupId를 입력해주세요.", "instance" : "/app/MyMission/missionName" },
     NEW_MISSIONNAME_EMPTY : { "isSuccess": false, "code": 2103, "title": "request body 존재 여부", "detail": "수정할 미션 이름을 입력해주세요.", "instance" : "/app/MyMission/missionName" },
     GROUP_NOT_EXIST : { "isSuccess": false, "code": 2104, "title": "groupId값 존재 여부", "detail": "해당 그룹이 존재하지 않습니다. 올바른 id값을 넣어주세요.", "instance" : "/app/MyMission/missionName"},
+    USER_NOT_IN_GROUP : { "isSuccess": false, "code": 2105, "title": "request parameter 존재 여부", "detail": "유저가 해당 그룹에 존재하지 않습니다. 다시 확인해주세요.", "instance" : "/app/user/:userId/friendLists/group"},
     //Request error
 
     USER_USERID_EMPTY : { "isSuccess": false, "code": 2001, "message": "userId를 입력해주세요." },

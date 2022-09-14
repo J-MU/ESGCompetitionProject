@@ -283,9 +283,7 @@ exports.postConfirmationPageLike = async function(connection, userId, feedId) {
         value(${feedId},${userId})
     `
     const confirmationPageLikeResults = await connection.query(postConfirmationPageLike);
-
-
-
+    console.log(confirmationPageLikeResults)
     return confirmationPageLikeResults;
 }
 
@@ -323,4 +321,52 @@ exports.deleteLikeNum = async function(connection, feedId) {
     const updateConfirmationPageLikeResults = await connection.query(updateConfirmationPageLike);
 
     return updateConfirmationPageLikeResults;
+}
+
+exports.selectUserName = async function(connection, userId){
+
+    const selectUserNameQuery = `
+        select userName
+        from Users
+        where userId=${userId}
+    `
+    const userNameResult = await connection.query(selectUserNameQuery,userId);
+
+    const userName = userNameResult[0][0].userName
+
+    return userName;
+}
+exports.insertNotifications = async function(connection, feedId, message) {
+
+    const insertNotificationsQuery = `
+        insert into Notifications (userId,message)
+            value((select userId from Confirmation where Id=${feedId})
+            ,'${message}');
+    `
+    const insertNotificationsResult = await connection.query(insertNotificationsQuery,feedId, message);
+
+    return insertNotificationsResult[0].insertId
+
+}
+
+exports.insertNotifications_Of_FriendLike = async function(connection,notificationId, userId, feedId ){
+
+    const insertNotifications_Of_FriendLikeQuery = `
+     insert into Notifications_Of_FriendLike (notificationId,friendId,feedId)
+        value(${notificationId},${userId},${feedId});
+    `
+    const insertNotifications_Of_FriendLikeResult = await connection.query(insertNotifications_Of_FriendLikeQuery,notificationId, userId, feedId);
+
+    return;
+}
+exports.UserInGroupCheck = async function(connection, userId,groupId) {
+
+    const selectUserInGroupQuery = `
+        select userId
+        from MyMissionsWithFriends
+        where groupId=${groupId} and userId=${userId}
+    `
+    const userInGroupResult  = await connection.query(selectUserInGroupQuery,userId,groupId);
+
+    return userInGroupResult[0];
 }

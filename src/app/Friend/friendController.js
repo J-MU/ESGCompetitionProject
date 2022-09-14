@@ -4,6 +4,8 @@ const friendService = require("./friendService");
 const userController=require("../User/userController");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
+const userProvider = require("../User/userProvider");
+const userService = require("../User/userService");
 
 
 /**
@@ -38,3 +40,32 @@ exports.getFriends = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS,friendList));
 };
 
+exports.getUserFriend = async function (req,res) {
+
+    const friendcode = req.params.friendUniqueCode
+
+    const userFriendResponse = await friendProvider.retrieveUserFriend(friendcode);
+
+    return res.send(response(baseResponse.SUCCESS,userFriendResponse));
+}
+
+
+exports.postFriendRequestNotification = async function(req, res) {
+
+    const userId = req.body.userId
+    const friendcode = req.body.friendcode
+
+    const postFriendRequestNotificationResponse = await friendService.notifyFriendRequest(userId,friendcode);
+
+    return res.send(postFriendRequestNotificationResponse);
+}
+
+exports.postNewFriend= async function(req, res){
+
+    const userId = 13; //친구 요청 받은 사람
+    const notificationId = req.body.notificationId
+
+    const postNewFriendResponse = await friendService.makeNewFriend(userId,notificationId);
+
+    return res.send(postNewFriendResponse);
+}

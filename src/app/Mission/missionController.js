@@ -123,9 +123,18 @@ exports.getFriendLists = async function (req,res) {
     const userId = req.params.userId
     const groupId = req.query.groupId
 
+    if(!userId){
+        return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
+    }
+
+    if(!groupId) {
+        return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
+    }
+
     const getFriendListsResult = await missionProvider.getFriendLists(userId, groupId);
 
-    return res.send(response(baseResponse.SUCCESS,getFriendListsResult));
+    return res.send(getFriendListsResult);
+
 }
 /**
  * 미션 rule 만들기
@@ -192,11 +201,10 @@ exports.getConfirmationPage = async function(req,res) {
 exports.postConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
-    const userId = 2;
+    const userId = 3;
     const feedId = req.params.Id;
     // const idontno=req.query.userId;
 
-    console.log("좋아요~!");
     const postConfirmationPageLikeResponse = await missionService.postConfirmationPageLike(userId,feedId);
 
     return res.send(response(baseResponse.SUCCESS));

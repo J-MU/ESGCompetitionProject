@@ -184,14 +184,6 @@ exports.patchUsers = async function (req, res) {
 
 
 
-
-
-
-
-
-
-
-
 /** JWT 토큰 검증 API
  * [GET] /app/auto-login
  */
@@ -211,4 +203,14 @@ exports.checkUserIdRange=async function(userId){
     }else{
         return false;
     }
+}
+
+exports.getNotifications = async function(req, res) {
+
+    const userId = req.params.userId
+
+    const getNotificationsResponse = await userProvider.retrieveUserNotifications(userId)
+
+    return res.send(response(baseResponse.SUCCESS,getNotificationsResponse));
+
 }

@@ -100,10 +100,37 @@ exports.receiveRecommendedMission = async function () {
 exports.getFriendLists = async function(userId, groupId) {
     const connection = await pool.getConnection(async (conn) => conn);
 
+    //userIdCheck
+
+    const userIdCheck = await userProvider.userIdCheck(userId);
+
+    if (userIdCheck.length<=0){
+
+        return (errResponse(baseResponse.USER_USERID_NOT_EXIST));
+    }
+
+    //groupId check
+    const groupIdCheck = await missionDao.groupIdCheck(connection, groupId);
+
+    if (groupIdCheck.length<=0){
+
+        connection.release();
+        return (errResponse(baseResponse.GROUP_NOT_EXIST));
+    }
+
+    //존재하는 그룹원인지
+    const checkUserInGroup = await missionDao.UserInGroupCheck(connection,userId, groupId);
+
+    if (checkUserInGroup.length<=0){
+
+        connection.release();
+        return (errResponse(baseResponse.USER_NOT_IN_GROUP));
+    }
+
     const FriendListsResults = await missionDao.getFriendLists(connection,userId, groupId);
     connection.release();
 
-    return FriendListsResults;
+    return response(baseResponse.SUCCESS, FriendListsResults);
 }
 
 //인증 페이지 가져오기 API
