@@ -4,6 +4,8 @@ const friendService = require("./friendService");
 const userController=require("../User/userController");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
+const userProvider = require("../User/userProvider");
+const userService = require("../User/userService");
 
 
 /**
@@ -38,3 +40,32 @@ exports.getFriends = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS,friendList));
 };
 
+exports.getUserFriend = async function (req,res) {
+
+    const friendcode = req.params.friendUniqueCode
+
+    const userFriendResponse = await friendProvider.retrieveUserFriend(friendcode);
+
+    return res.send(response(baseResponse.SUCCESS,userFriendResponse));
+}
+
+// 친구 추가 API
+exports.postUserFriend = async function(req,res) {
+
+    const userId = 10;
+    const usercode = req.params.userUniqueCode
+
+    const postUserFriendResponse = await friendService.makeUserFriend(usercode,userId);
+
+    return res.send(postUserFriendResponse);
+}
+
+exports.postFriendRequestNotification = async function(req, res) {
+
+    const userId = req.body.userId
+    const friendcode = req.body.friendcode
+
+    const postFriendRequestNotificationResponse = await friendService.notifyFriendRequest(userId,friendcode);
+
+    return res.send(postFriendRequestNotificationResponse);
+}

@@ -92,6 +92,7 @@ async function userIdCheck(connection, userId) {
   return userIdRow[0];
 }
 
+
 module.exports = {
   selectUser,
   selectUserEmail,
