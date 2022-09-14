@@ -52,8 +52,8 @@ exports.getUserFriend = async function (req,res) {
 
 exports.postFriendRequestNotification = async function(req, res) {
 
-    const userId = req.body.userId
-    const friendcode = req.body.friendcode
+    const userId = req.body.userId // 친구 요청을 보내는 사람
+    const friendcode = req.body.friendcode //친구의 코드
 
     const postFriendRequestNotificationResponse = await friendService.notifyFriendRequest(userId,friendcode);
 
@@ -63,7 +63,7 @@ exports.postFriendRequestNotification = async function(req, res) {
 exports.postNewFriend= async function(req, res){
 
     const userId = 13; //친구 요청 받은 사람
-    const notificationId = req.body.notificationId
+    const notificationId = req.body.notificationId //알림 Id
 
     const postNewFriendResponse = await friendService.makeNewFriend(userId,notificationId);
 
