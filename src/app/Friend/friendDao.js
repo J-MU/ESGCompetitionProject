@@ -13,6 +13,9 @@ async function getFriends(connection, userId) {
     on Users.userId=MyFriend.FriendId;
     `
     const userIdRow = await connection.query(userIdCheckQuery, userId);
+    console.log(userIdCheckQuery);
+    console.log(userIdRow);
+    console.log(userId);
     return userIdRow[0];
 }
 
