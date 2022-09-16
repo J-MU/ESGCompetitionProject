@@ -20,11 +20,14 @@ module.exports = function () {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
     // app.use(express.static(process.cwd() + '/public'));
 
+
     /* App (Android, iOS) */
     // TODO: 도메인을 추가할 경우 이곳에 Route를 추가하세요.
     require('../src/app/Friend/friendRoute')(app);
     require('../src/app/User/userRoute')(app);
     require('../src/app/Mission/missionRoute')(app);
+    require('../src/app/ImageUpload/ImageUploader')(app);
+    //require('../src/app/ImageUpload/ImageUploaderRouter')(app);
     // require('../src/app/Board/boardRoute')(app);
 
     return app;

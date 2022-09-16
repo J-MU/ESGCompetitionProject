@@ -102,6 +102,7 @@ async function selectFriendIdFromNotification(connection,notificationId ) {
 
     const friendIdResult = await connection.query(selectFriendIdQuery,notificationId);
 
+    console.log(friendIdResult[0]);
     return friendIdResult[0][0].friendId
 }
 module.exports = {

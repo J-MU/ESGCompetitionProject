@@ -62,7 +62,7 @@ exports.postFriendRequestNotification = async function(req, res) {
 
 exports.postNewFriend= async function(req, res){
 
-    const userId = 13; //친구 요청 받은 사람
+    const userId = 15; //친구 요청 받은 사람
     const notificationId = req.body.notificationId //알림 Id
 
     const postNewFriendResponse = await friendService.makeNewFriend(userId,notificationId);
