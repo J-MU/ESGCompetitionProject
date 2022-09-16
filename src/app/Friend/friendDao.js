@@ -79,16 +79,26 @@ async function insertNotifications(connection,friendId,message ){
     return insertNotificationsResult[0].insertId
 }
 
-async function insertNotifications_Of_FriendRequest(connection,notificationId, userId) {
+async function postNotificationFriendAcceptance(connection,notificationId,friendId ){
 
-    const insertNotifications_Of_FriendRequestQuery = `
-        insert into Notificaitons_Of_FriendRequest (notificationId, friendId)
-            value(${notificationId}
-            ,${userId});
+    const insertNotificationsQuery = `
+        insert into Notifications_Of_FriendAcceptance (notificationId,friendId)
+            VALUES(${notificationId},${friendId});
     `
-    const insertNotifications_Of_FriendRequestResult = await connection.query(insertNotifications_Of_FriendRequestQuery,notificationId, userId);
+    const insertNotificationsResult = await connection.query(insertNotificationsQuery);
 
-    return;
+    return insertNotificationsResult[0];
+}
+
+async function insertNotifications_Of_FriendRequest(connection,notificationId, friendId) {
+
+    const acceptFriendRequestQuery = `
+        INSERT INTO Notifications_Of_FriendAcceptance
+        VALUES(${notificationId},${friendId})
+    `
+    const acceptFriendRequestResult = await connection.query(acceptFriendRequestQuery);
+
+    return acceptFriendRequestResult[0];
 
 }
 
@@ -111,5 +121,6 @@ module.exports = {
     selectFriendId,
     insertNotifications,
     insertNotifications_Of_FriendRequest,
-    selectFriendIdFromNotification
+    selectFriendIdFromNotification,
+    postNotificationFriendAcceptance
 };

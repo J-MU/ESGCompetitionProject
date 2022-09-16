@@ -7,7 +7,7 @@ exports.getMyMissionLists = async function (connection, userId,status){
     }
 
     const selectMyMissionListsQuery = `
-        select MCF.groupId, C.missionId, MC.missionName, date_format(MC.createdAt,'%Y-%m-%d') as startDate,MC.groupId ${dateString}
+        select MCF.groupId, C.missionId, MC.missionName,C.category, date_format(MC.createdAt,'%Y-%m-%d') as startDate,MC.groupId ${dateString}
         from MyMissionsWithFriends as MCF
         inner join MyMission as MC on MC.groupId=MCF.groupId
         inner join Missions as C on C.missionId=MC.missionId
@@ -38,9 +38,9 @@ exports.getFriends = async function(connection, groupId, userId) {
 exports.getMissionLists = async function(connection) {
 
     const selectMissionListsQuery =  `
-        select missionId ,missionName, descriptionImgUrl
-        from Missions
-    `;
+        select missionId ,missionName, descriptionImgUrl,descriptionComment1,descriptionComment2
+        from Missions LIMIT 5;
+    `;//TODO 데이터 부족으로 일단 4개까지만
 
     const missionListsRows = await connection.query(selectMissionListsQuery);
 
@@ -97,7 +97,7 @@ exports.postFriendInMission = async function(connection, groupId, friendId) {
 
 exports.postMissionRule = async function (connection, groupId, day, num) {
     const insertMissionRuleQuery= `
-        update MyMission set day=${day}, number=${num} where groupId=${groupId}
+        update MyMission set day="${day}", number="${num}" where groupId=${groupId}
     `
     await connection.query(insertMissionRuleQuery,groupId, day, num)
 }
@@ -213,7 +213,7 @@ exports.groupIdCheck = async function(connection, groupId) {
 
 exports.getRecommendedMission = async function(connection) {
     const getRecommendedMissionQuery = `
-        select bannerId, bannerImage, bannerTitle, eventTitle, eventContent
+        select bannerId, bannerImage, bannerTitle, eventTitle, eventContent,category
         from RecommendedMission
         order by rand()
     `

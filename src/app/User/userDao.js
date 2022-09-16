@@ -24,7 +24,7 @@ async function selectUserId(connection, userId) {
   console.log(userId);
   
   const selectUserIdQuery = `
-  SELECT userId,userLevel,userName,profileImgUrl,representativeBadge1,representativeBadge2,representativeBadge3
+  SELECT userId,secondId,userLevel,userName,profileImgUrl,representativeBadge1,representativeBadge2,representativeBadge3
   FROM Users
   WHERE userId = ${userId}`;
 
@@ -94,7 +94,7 @@ async function userIdCheck(connection, userId) {
 async function selectUserNotifications(connection, userId) {
 
   const selectUserNotificationsQuery =`
-    select notificationId, message
+    select notificationId, message,category
     from Notifications
     where userId=${userId}
   `

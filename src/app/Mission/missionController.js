@@ -100,6 +100,8 @@ exports.patchMissionName = async function(req,res) {
 exports.postFriendInMission = async function(req, res) {
     const groupId = req.params.groupId
     const friendId = req.body.friendId //배열로 받아옴
+    console.log(groupId,friendId);
+    console.log("post Friends");
 
     //validation
     if(!groupId) {
@@ -111,7 +113,7 @@ exports.postFriendInMission = async function(req, res) {
     }
 
     await missionService.postFriendInMission(groupId, friendId)
-
+    console.log("Controller.  끝");
     return res.send(response(baseResponse.SUCCESS))
 }
 
@@ -146,7 +148,7 @@ exports.postMissionRule = async function (req,res) {
     const groupId = req.body.groupId
     const day = req.body.day
     const num = req.body.number
-
+    console.log("여긴 와요?");
     await missionService.postMissionRule(groupId,day, num);
 
     return res.send(response(baseResponse.SUCCESS));//기다리고있을꺼잖아요

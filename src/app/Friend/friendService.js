@@ -28,15 +28,18 @@ exports.makeNewFriend = async function(userId, notificationId) {
     const connection = await pool.getConnection(async (conn) => conn);
 
     const friendId = await friendDao.selectFriendIdFromNotification(connection, notificationId);//친구요청 보낸 사람 Id 가져오기
-
+    console.log(friendId);
+    console.log("친구 id");
     const makeUserFriendResult = await friendDao.insertUserFriend(connection, userId, friendId); //친구 추가하기
-
+    console.log("친구 추가하기");
     const userName = await missionDao.selectUserName(connection,userId);
 
     const message = `${userName}님과 이제 친구입니다.`
 
-    const sendRequestAcceptanceMessage = await friendDao.insertNotifications(connection, friendId, message); //친구 추가했다고 메시지 보내기
-
+    console.log("친구 추가됐을~");
+    const notificationResult = await friendDao.insertNotifications(connection, friendId, message); //친구 추가했다고 메시지 보내기
+    const postFriendAcceptNoti=await friendDao.postNotificationFriendAcceptance(connection,notificationId,friendId);
+    console.log("친구 추가 됐음~");
     connection.release();
 
     return response(baseResponse.SUCCESS);
