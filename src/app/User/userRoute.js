@@ -1,3 +1,4 @@
+const user = require("./userController");
 module.exports = function(app){
     const user = require('./userController');
     const jwtMiddleware = require('../../../config/jwtMiddleware');
@@ -23,6 +24,7 @@ module.exports = function(app){
  *       200:
  *        description: 테스트 API 정상 작동
  */
+
      app.get('/app/test', user.getTest)
 
 /**
@@ -74,6 +76,8 @@ module.exports = function(app){
 
     // 유저 알림 조회
     app.get('/app/users/:userId/notifications', user.getNotifications);
+
+
 
 };
 
