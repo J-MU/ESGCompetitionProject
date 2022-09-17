@@ -5,7 +5,7 @@ module.exports = function (app) {
 
   
   // 친구 검색 API
-  app.get("/app/users/:userId/friends/:friendUniqueCode", friend.getUserFriend);
+  app.get("/app/friends/:friendUniqueCode/users/:userId", friend.getUserFriend);
 
   app.get("/app/users/:userId/friends", friend.getFriends);
 

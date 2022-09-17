@@ -53,11 +53,11 @@ async function selectUserFriend(connection, friendcode, friendId, myId) {
   if (friendId < myId) {
     firstId = friendId;
     secondId = myId;
-    conditionStr = " IsFriend.userSecondId=Users.userId";
+    conditionStr = " IsFriend.userFirstId=Users.userId";
   } else {
     firstId = myId;
     secondId = friendId;
-    conditionStr = " IsFriend.userFirstId=Users.userId";
+    conditionStr = " IsFriend.userSecondId=Users.userId";
   }
   if (!isNaN(friendcode)) {
     selectUserFriendQuery =
@@ -68,6 +68,7 @@ async function selectUserFriend(connection, friendcode, friendId, myId) {
        userName,
        statusMessage,
        profileImgUrl,
+       HasRequest.notificationId,
        IF(IsFriend.userFirstId,true,false) as isFriend,
        IF(HasRequest.friendId,true,false) as hasRequest,
        IF(SendRequest.friendId,true,false) as sendRequest
@@ -98,6 +99,7 @@ async function selectUserFriend(connection, friendcode, friendId, myId) {
        userName,
        statusMessage,
        profileImgUrl,
+       HasRequest.notificationId,
        IF(IsFriend.userFirstId,true,false) as isFriend,
        IF(HasRequest.friendId,true,false) as hasRequest,
        IF(SendRequest.friendId,true,false) as sendRequest
