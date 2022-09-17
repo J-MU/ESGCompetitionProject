@@ -256,3 +256,22 @@ exports.postMissionImages = async function(req, res) {
     return res.send(response(baseResponse.SUCCESS, postMissionConfirmationResponse));
 
 }
+
+exports.deleteMissionConfirmation = async function(req, res) {
+
+    //userId, confirmationId
+    const userId = req.body.userId
+    const confirmationId = req.body.confirmationId
+
+    if(!userId) {
+        return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
+    }
+
+    if(!confirmationId) {
+        return res.send(errResponse(baseResponse.CONFIRMATION_ID_EMPTY));
+    }
+
+    const deleteConfirmationResponse = await missionService.removeMissionConfirmation(userId, confirmationId);
+
+    return res.send(deleteConfirmationResponse);
+}
