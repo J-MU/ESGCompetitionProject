@@ -31,7 +31,7 @@ async function selectFriendIdList(connection, friendcode, userId) {
     selectUserFriendQuery = `
     SELECT Users.userId,
         FROM Users
-         where Users.userName LIKE "%${friendcode}%";
+         where Users.userName LIKE "%${friendcode}%"`;
   }
 
   const userFriendResult = await connection.query(
