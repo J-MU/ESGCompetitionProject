@@ -49,7 +49,18 @@ async function selectUserFriend(connection, friendcode, friendId,myId) {
   console.log(friendcode);
   console.log(isNaN(friendcode));
   let selectUserFriendQuery;
+  let firstId;
+  let secondId;
+  let conditionStr;
 
+  if(friendId<myId){
+    firstId=friendId;
+    secondId=myId;
+    conditionStr=
+  }else{
+    firstId=myId;
+    secondId=friendId;
+  }
   if (!isNaN(friendcode)) {
     selectUserFriendQuery = `
         SELECT Users.userId,
