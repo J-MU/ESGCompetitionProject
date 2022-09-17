@@ -94,7 +94,7 @@ async function userIdCheck(connection, userId) {
 async function selectUserNotifications(connection, userId) {
 
   const selectUserNotificationsQuery =`
-    select notificationId, message,category
+  select notificationId, message,category
     from Notifications
     where userId=${userId}
   `

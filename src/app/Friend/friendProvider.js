@@ -7,25 +7,36 @@ const userDao = require("../User/userDao");
 // Provider: Read 비즈니스 로직 처리
 
 exports.getFriends = async function (userId) {
-    
-    const connection = await pool.getConnection(async (conn) => conn);
-    const friendList = await friendDao.getFriends(connection, userId);
-    console.log("왜 안됨?");
-    console.log(friendList);
-    connection.release();
+  const connection = await pool.getConnection(async (conn) => conn);
+  const friendList = await friendDao.getFriends(connection, userId);
+  connection.release();
 
-    return friendList;
-
+  return friendList;
 };
 
-exports.retrieveUserFriend = async function(friendcode) {
+exports.retrieveUserFriend = async function (friendcode, userId) {
+  const connection = await pool.getConnection(async (conn) => conn);
 
-    const connection = await pool.getConnection(async (conn) => conn);
+  console.log("여기가 중요");
+  const firstIdList = await friendDao.selectFriendIdList(
+    connection,
+    friendcode
+  );
 
-    const userFriendResult = await friendDao.selectUserFriend(connection, friendcode);
+  console.log("뭐가 찍히나?");
+  console.log(firstIdList);
 
-    return userFriendResult;
+  let userFriendResult;
 
-}
-
-
+  for(i=0; i<firstIdList.length; i++){
+    userFriendResult = await friendDao.selectUserFriend(
+      connection,
+      friendcode,
+      firstIdList[i].userId,
+      userId
+    );  
+  }
+  
+  
+  return userFriendResult;
+};

@@ -79,4 +79,6 @@ module.exports = function(app) {
 
     // 좋아요 삭제 API
     app.delete('/app/like/feedId/:feedId', mission.deleteConfirmationPageLike);
+    
 };
+
