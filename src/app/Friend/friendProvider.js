@@ -25,13 +25,20 @@ exports.retrieveUserFriend = async function (friendcode, userId) {
     friendcode
   );
 
+  console.log("뭐가 찍히나?");
   console.log(firstIdList);
 
-  const userFriendResult = await friendDao.selectUserFriend(
-    connection,
-    friendcode,
-    userId
-  );
+  let userFriendResult;
 
+  for(i=0; i<firstIdList.length; i++){
+    userFriendResult = await friendDao.selectUserFriend(
+      connection,
+      friendcode,
+      friendId,
+      userId
+    );  
+  }
+  
+  
   return userFriendResult;
 };
