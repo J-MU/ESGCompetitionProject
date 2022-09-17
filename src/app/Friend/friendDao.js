@@ -45,7 +45,7 @@ async function selectFriendIdList(connection, friendcode, userId) {
   return userFriendResult[0];
 }
 
-async function selectUserFriend(connection, friendcode, friendId,myId) {
+async function selectUserFriend(connection, friendcode, friendId, myId) {
   console.log(friendcode);
   console.log(isNaN(friendcode));
   let selectUserFriendQuery;
@@ -53,16 +53,18 @@ async function selectUserFriend(connection, friendcode, friendId,myId) {
   let secondId;
   let conditionStr;
 
-  if(friendId<myId){
-    firstId=friendId;
-    secondId=myId;
-    conditionStr=
-  }else{
-    firstId=myId;
-    secondId=friendId;
+  if (friendId < myId) {
+    firstId = friendId;
+    secondId = myId;
+    conditionStr = "IsFriend.userSecondId=Users.userId";
+  } else {
+    firstId = myId;
+    secondId = friendId;
+    conditionStr = "IsFriend.userFirstId=Users.userId";
   }
   if (!isNaN(friendcode)) {
-    selectUserFriendQuery = `
+    selectUserFriendQuery =
+      `
         SELECT Users.userId,
        secondId,
        userLevel,
@@ -76,7 +78,9 @@ async function selectUserFriend(connection, friendcode, friendId,myId) {
  LEFT JOIN (
      SELECT * FROM Friends
         WHERE userFirstId=${firstId} and userSecondId=${secondId}
- )IsFriend on IsFriend.userSecondId=Users.userId # 친구의 userId가 userFisrtId이다.
+ )IsFriend on ` +
+      conditionStr +
+      `# 친구의 userId가 userFisrtId이다.
  LEFT JOIN(
      SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
     LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
@@ -89,7 +93,8 @@ async function selectUserFriend(connection, friendcode, friendId,myId) {
  )SendRequest on SendRequest.userId=Users.userId
  WHERE secondId=${friendcode};`;
   } else {
-    selectUserFriendQuery = `
+    selectUserFriendQuery =
+      `
     SELECT Users.userId,
        secondId,
        userLevel,
@@ -103,7 +108,9 @@ async function selectUserFriend(connection, friendcode, friendId,myId) {
  LEFT JOIN (
      SELECT * FROM Friends
         WHERE userFirstId=${firstId} and userSecondId=${secondId}
- )IsFriend on IsFriend.userSecondId=Users.userId # 친구의 userId가 userFisrtId이다.
+ )IsFriend on` +
+      conditionStr +
+      `IsFriend.userSecondId=Users.userId 
  LEFT JOIN(
      SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
     LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
