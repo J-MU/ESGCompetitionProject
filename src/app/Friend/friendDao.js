@@ -24,28 +24,43 @@ async function selectFriendIdList(connection, friendcode, userId) {
   let selectUserFriendQuery;
   if (!isNaN(friendcode)) {
     selectUserFriendQuery = `
-        SELECT Users.userId,
+        SELECT Users.userId
             FROM Users
             WHERE secondId=${friendcode};`;
   } else {
     selectUserFriendQuery = `
-    SELECT Users.userId,
+    SELECT Users.userId
         FROM Users
          where Users.userName LIKE "%${friendcode}%"`;
   }
 
+  console.log(selectUserFriendQuery);
   const userFriendResult = await connection.query(
     selectUserFriendQuery,
     friendcode
   );
 
+  console.log("여기");
+  console.log(userFriendResult);
   return userFriendResult[0];
 }
 
-async function selectUserFriend(connection, friendcode, userId) {
+async function selectUserFriend(connection, friendcode, friendId,myId) {
   console.log(friendcode);
   console.log(isNaN(friendcode));
   let selectUserFriendQuery;
+  let firstId;
+  let secondId;
+  let conditionStr;
+
+  if(friendId<myId){
+    firstId=friendId;
+    secondId=myId;
+    conditionStr=
+  }else{
+    firstId=myId;
+    secondId=friendId;
+  }
   if (!isNaN(friendcode)) {
     selectUserFriendQuery = `
         SELECT Users.userId,
@@ -219,4 +234,5 @@ module.exports = {
   insertNotifications_Of_FriendRequest,
   selectFriendIdFromNotification,
   postNotificationFriendAcceptance,
+  selectFriendIdList,
 };
