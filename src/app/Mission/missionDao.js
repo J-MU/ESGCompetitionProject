@@ -370,3 +370,26 @@ exports.UserInGroupCheck = async function(connection, userId,groupId) {
 
     return userInGroupResult[0];
 }
+
+exports.insertNewMission = async function(connection, userId, groupId) {
+
+    const insertNewMissionQuery = `
+        insert into Confirmation(groupId,userId)
+        value(${groupId},${userId})
+    `
+    const insertNewMissionResult  = await connection.query(insertNewMissionQuery,userId,groupId);
+
+    return insertNewMissionResult[0].insertId;
+
+}
+
+exports.insertImagesInConfirmation = async function(connection, confirmationId,image) {
+
+    const insertNewMissionQuery = `
+        insert into Confirmation(groupId,userId)
+        value(${groupId},${userId})
+    `
+    const insertNewMissionResult  = await connection.query(insertNewMissionQuery,userId,groupId);
+
+    return insertNewMissionResult[0].insertId;
+}

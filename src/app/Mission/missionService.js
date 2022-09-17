@@ -163,5 +163,30 @@ exports.postMyMission = async function(groupId, day, num) {
 
     connection.release();
 
-    
+    return;
+}
+
+exports.makeMissionConfirmation = async function(userId, groupId) {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const missionIdResult = await missionDao.insertNewMission(connection,userId, groupId);
+
+    connection.release();
+
+    const missionIdReturn = {}
+    missionIdReturn.confirmationId = missionIdResult;
+
+    return missionIdReturn;
+}
+
+exports.addMissionImages = async function(confirmationId,image) {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    const missionIdResult = await missionDao.insertImagesInConfirmation(connection,confirmationId,image);
+
+    connection.release();
+
+    return missionIdReturn;
 }

@@ -72,6 +72,7 @@ module.exports = function(app) {
     app.get('/app/group/:groupId/confirmationPage', mission.getConfirmationPage);
 
     // 인증하는 페이지 API
+    app.post('/app/group/missionConfirmation', mission.postMissionConfirmation);
 
     // 좋아요 추가 API
     app.post('/app/confirmationPage/Id/:Id/like', mission.postConfirmationPageLike);

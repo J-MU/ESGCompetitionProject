@@ -1,4 +1,6 @@
 const user = require("../User/userController");
+
+
 module.exports = function(app){
     const friend = require('./friendController');
     const jwtMiddleware = require('../../../config/jwtMiddleware');

@@ -226,3 +226,33 @@ exports.deleteConfirmationPageLike = async function(req, res) {
     return res.send(response(baseResponse.SUCCESS));
 
 }
+
+exports.postMissionConfirmation = async function(req, res) {
+
+    const userId = req.body.userId
+    const groupId = req.body.groupId
+
+    if(!userId){
+        return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
+    }
+
+    if(!groupId) {
+        return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
+    }
+
+    const postMissionConfirmationResponse = await missionService.makeMissionConfirmation(userId, groupId);
+
+    return res.send(response(baseResponse.SUCCESS, postMissionConfirmationResponse));
+
+}
+
+exports.postMissionImages = async function(req, res) {
+
+    const confirmationId = req.body.confirmationId
+    const image = req.body.image
+
+    const postMissionConfirmationResponse = await missionService.addMissionImages(confirmationId,image);
+
+    return res.send(response(baseResponse.SUCCESS, postMissionConfirmationResponse));
+
+}

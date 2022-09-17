@@ -7,13 +7,12 @@ const response = ({isSuccess, code, message}, result) => {
    }
   };
 
-  const errResponse = ({isSuccess, code, title, detail, instance}) => {
+  const errResponse = ({isSuccess, code, title, detail}) => {
     return {
         isSuccess: isSuccess,
         code: code,
         title: title,
-        detail: detail,
-        instance: instance
+        detail: detail
       }
   };
   
