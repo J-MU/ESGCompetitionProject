@@ -13,9 +13,6 @@ async function getFriends(connection, userId) {
     on Users.userId=MyFriend.FriendId;
     `;
   const userIdRow = await connection.query(userIdCheckQuery, userId);
-  console.log(userIdCheckQuery);
-  console.log(userIdRow);
-  console.log(userId);
   return userIdRow[0];
 }
 async function selectFriendIdList(connection, friendcode, userId) {
@@ -56,11 +53,11 @@ async function selectUserFriend(connection, friendcode, friendId, myId) {
   if (friendId < myId) {
     firstId = friendId;
     secondId = myId;
-    conditionStr = "IsFriend.userSecondId=Users.userId";
+    conditionStr = " IsFriend.userSecondId=Users.userId";
   } else {
     firstId = myId;
     secondId = friendId;
-    conditionStr = "IsFriend.userFirstId=Users.userId";
+    conditionStr = " IsFriend.userFirstId=Users.userId";
   }
   if (!isNaN(friendcode)) {
     selectUserFriendQuery =
@@ -110,7 +107,7 @@ async function selectUserFriend(connection, friendcode, friendId, myId) {
         WHERE userFirstId=${firstId} and userSecondId=${secondId}
  )IsFriend on` +
       conditionStr +
-      `IsFriend.userSecondId=Users.userId 
+      ` 
  LEFT JOIN(
      SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
     LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId

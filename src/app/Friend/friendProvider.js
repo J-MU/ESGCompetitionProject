@@ -9,8 +9,6 @@ const userDao = require("../User/userDao");
 exports.getFriends = async function (userId) {
   const connection = await pool.getConnection(async (conn) => conn);
   const friendList = await friendDao.getFriends(connection, userId);
-  console.log("왜 안됨?");
-  console.log(friendList);
   connection.release();
 
   return friendList;
@@ -34,7 +32,7 @@ exports.retrieveUserFriend = async function (friendcode, userId) {
     userFriendResult = await friendDao.selectUserFriend(
       connection,
       friendcode,
-      friendId,
+      firstIdList[i].userId,
       userId
     );  
   }
