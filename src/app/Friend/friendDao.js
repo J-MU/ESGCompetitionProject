@@ -20,12 +20,22 @@ async function getFriends(connection, userId) {
 }
 
 async function selectUserFriend(connection, friendcode){
-    console.log(friendcode)
-    const selectUserFriendQuery = `
-    select userId, userLevel, userName, statusMessage, profileImgUrl
-    from Users
-    where userUniqueCode='${friendcode}';
-  `
+    console.log(friendcode);
+    console.log(isNaN(friendcode));
+    let selectUserFriendQuery;
+    if(!isNaN(friendcode)){
+        selectUserFriendQuery = `
+        select userId,secondId, userLevel, userName, statusMessage, profileImgUrl
+        from Users
+        where secondId=${friendcode};`
+    }else{
+        selectUserFriendQuery=`
+        SELECT userId,secondId,userLevel,userName,statusMessage,profileImgUrl 
+        FROM Users
+        where userName LIKE "%${friendcode}%"
+        `
+    }
+    
     const userFriendResult = await connection.query(selectUserFriendQuery, friendcode);
 
     return userFriendResult[0];
