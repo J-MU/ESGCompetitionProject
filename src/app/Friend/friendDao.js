@@ -18,6 +18,29 @@ async function getFriends(connection, userId) {
   console.log(userId);
   return userIdRow[0];
 }
+async function selectFriendIdList(connection, friendcode, userId) {
+  console.log(friendcode);
+  console.log(isNaN(friendcode));
+  let selectUserFriendQuery;
+  if (!isNaN(friendcode)) {
+    selectUserFriendQuery = `
+        SELECT Users.userId,
+            FROM Users
+            WHERE secondId=${friendcode};`;
+  } else {
+    selectUserFriendQuery = `
+    SELECT Users.userId,
+        FROM Users
+        WHERE secondId=${friendcode};`;
+  }
+
+  const userFriendResult = await connection.query(
+    selectUserFriendQuery,
+    friendcode
+  );
+
+  return userFriendResult[0];
+}
 
 async function selectUserFriend(connection, friendcode, userId) {
   console.log(friendcode);
