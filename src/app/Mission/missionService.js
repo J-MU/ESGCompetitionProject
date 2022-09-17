@@ -190,3 +190,30 @@ exports.addMissionImages = async function(confirmationId,image) {
 
     return missionIdReturn;
 }
+
+exports.removeMissionConfirmation = async function(userId, confirmationId) {
+
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    try {
+
+        //check confirmationId
+
+        const confirmationCheckResult = await missionDao.confirmationIdCheck(connection, userId, confirmationId);
+
+        if(confirmationCheckResult.length<=0) {
+
+            return errResponse(baseResponse.CONFIRMATION_NOT_EXIST)
+        }
+
+        const missionIdResult = await missionDao.deleteMissionConfirmationInDB(connection,userId, confirmationId);
+
+    }catch(err) {
+
+    }
+    finally {
+        connection.release();
+    }
+
+    return response(baseResponse.SUCCESS);
+}

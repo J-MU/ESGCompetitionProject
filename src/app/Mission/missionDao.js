@@ -382,3 +382,24 @@ exports.insertNewMission = async function(connection, userId, groupId) {
     return insertNewMissionResult[0].insertId;
 
 }
+
+exports.deleteMissionConfirmationInDB = async function(connection,userId, confirmationId) {
+
+    const deleteMissionConfirmationQuery = `
+        delete from Confirmation where Id=${confirmationId} and userId=${userId}
+    `
+    const deleteMissionConfirmationResult  = await connection.query(deleteMissionConfirmationQuery,userId, confirmationId);
+    console.log(deleteMissionConfirmationQuery)
+    return deleteMissionConfirmationResult[0];
+
+}
+
+exports.confirmationIdCheck = async function(connection, userId, confirmationId) {
+
+    const confirmationIdCheckQuery = `
+        select Id from Confirmation where Id=${confirmationId} and userId=${userId}
+    `
+    const confirmationIdCheckResult  = await connection.query(confirmationIdCheckQuery,userId, confirmationId);
+    return confirmationIdCheckResult[0];
+
+}

@@ -25,6 +25,7 @@ module.exports = {
     USER_NOT_IN_GROUP : { "isSuccess": false, "code": 2105, "title": "request parameter 존재 여부", "detail": "유저가 해당 그룹에 존재하지 않습니다. 다시 확인해주세요."},
     CONFIRMATION_ID_EMPTY : { "isSuccess": false, "code": 2106, "title": "request parameter 존재 여부", "detail": "confirmationId를 입력해주세요."},
     CONFIRMATION_FILELOCATION_EMPTY :{ "isSuccess": false, "code": 2107, "title": "request parameter 존재 여부", "detail": "fileLocation을 입력해주세요."},
+    CONFIRMATION_NOT_EXIST :  { "isSuccess": false, "code": 2108, "title": "confirmationId값 존재 여부", "detail": "해당 인증이 존재하지 않습니다. 올바른 값을 넣어주세요."},
 
     //Request error
     USER_USERID_EMPTY : { "isSuccess": false, "code": 2001, "message": "userId를 입력해주세요." },
