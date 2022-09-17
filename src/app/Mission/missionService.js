@@ -78,11 +78,9 @@ exports.postFriendInMission = async function(groupId, friendId) {
     //friend가 여기 없는지, 유저의 친구가 맞는지
 
     //friendId list로 받아와서 하나씩 대입
-    for(let i=0; i<friendId.length; i++){
-        connection.release();
-        await missionDao.postFriendInMission(connection,groupId, friendId[i]);
-
-    }
+    await missionDao.postFriendInMission(connection,groupId, friendId);
+    console.log("second Query Success");
+    connection.release();
 }
 
 //myMission rule 추가

@@ -35,7 +35,10 @@ exports.makeNewFriend = async function(userId, notificationId) {
 
     const message = `${userName}님과 이제 친구입니다.`
 
-    const sendRequestAcceptanceMessage = await friendDao.insertNotifications(connection, friendId, message); //친구 추가했다고 메시지 보내기
+    console.log("친구 추가됐을~");
+    const notificationResult = await friendDao.insertNotifications(connection, friendId, message); //친구 추가했다고 메시지 보내기
+    const postFriendAcceptNoti=await friendDao.postNotificationFriendAcceptance(connection,notificationId,friendId);
+    console.log("친구 추가 됐음~");
 
     connection.release();
 
