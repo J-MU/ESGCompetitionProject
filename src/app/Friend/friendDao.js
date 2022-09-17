@@ -31,7 +31,7 @@ async function selectFriendIdList(connection, friendcode, userId) {
     selectUserFriendQuery = `
     SELECT Users.userId,
         FROM Users
-        WHERE secondId=${friendcode};`;
+         where Users.userName LIKE "%${friendcode}%";
   }
 
   const userFriendResult = await connection.query(
@@ -76,30 +76,30 @@ async function selectUserFriend(connection, friendcode, userId) {
   } else {
     selectUserFriendQuery = `
     SELECT Users.userId,
-    secondId,
-    userLevel,
-    userName,
-    statusMessage,
-    profileImgUrl,
-    IF(IsFriend.userFirstId,true,false) as isFriend,
-    IF(HasRequest.friendId,true,false) as hasRequest,
-    IF(SendRequest.friendId,true,false) as sendRequest
-FROM Users
-LEFT JOIN (
-  SELECT * FROM Friends
-     WHERE userFirstId=${firstId} and userSecondId=${secondId}
-)IsFriend on IsFriend.userSecondId=Users.userId # 친구의 userId가 userFisrtId이다.
-LEFT JOIN(
-  SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
- LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
- WHERE Notifications.userId=${myId} and friendId=${friendId}
-)HasRequest on HasRequest.friendId=Users.userId
-LEFT JOIN(
-  SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
- LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
- WHERE Notifications.userId=${friendId} and friendId=${myId}
-)SendRequest on SendRequest.userId=Users.userId
-WHERE secondId=${friendcode};`;
+       secondId,
+       userLevel,
+       userName,
+       statusMessage,
+       profileImgUrl,
+       IF(IsFriend.userFirstId,true,false) as isFriend,
+       IF(HasRequest.friendId,true,false) as hasRequest,
+       IF(SendRequest.friendId,true,false) as sendRequest
+ FROM Users
+ LEFT JOIN (
+     SELECT * FROM Friends
+        WHERE userFirstId=${firstId} and userSecondId=${secondId}
+ )IsFriend on IsFriend.userSecondId=Users.userId # 친구의 userId가 userFisrtId이다.
+ LEFT JOIN(
+     SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
+    LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
+    WHERE Notifications.userId=${myId} and friendId=${friendId}
+ )HasRequest on HasRequest.friendId=Users.userId
+ LEFT JOIN(
+     SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
+    LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
+    WHERE Notifications.userId=${friendId} and friendId=${myId}
+ )SendRequest on SendRequest.userId=Users.userId
+ where Users.userName LIKE "%${friendcode}%";
   }
 
   const userFriendResult = await connection.query(
