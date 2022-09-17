@@ -1,5 +1,5 @@
 async function getFriends(connection, userId) {
-    const userIdCheckQuery = `
+  const userIdCheckQuery = `
     select userId,userLevel,userName,statusMessage,profileImgUrl from Users
     RIGHT JOIN (
         SELECT CASE
@@ -11,126 +11,189 @@ async function getFriends(connection, userId) {
         where userFirstId=${userId} or userSecondId=${userId}
     ) as MyFriend
     on Users.userId=MyFriend.FriendId;
-    `
-    const userIdRow = await connection.query(userIdCheckQuery, userId);
-    console.log(userIdCheckQuery);
-    console.log(userIdRow);
-    console.log(userId);
-    return userIdRow[0];
+    `;
+  const userIdRow = await connection.query(userIdCheckQuery, userId);
+  console.log(userIdCheckQuery);
+  console.log(userIdRow);
+  console.log(userId);
+  return userIdRow[0];
 }
 
-async function selectUserFriend(connection, friendcode){
-    console.log(friendcode);
-    console.log(isNaN(friendcode));
-    let selectUserFriendQuery;
-    if(!isNaN(friendcode)){
-        selectUserFriendQuery = `
-        select userId,secondId, userLevel, userName, statusMessage, profileImgUrl
-        from Users
-        where secondId=${friendcode};`
-    }else{
-        selectUserFriendQuery=`
-        SELECT userId,secondId,userLevel,userName,statusMessage,profileImgUrl 
-        FROM Users
-        where userName LIKE "%${friendcode}%"
-        `
-    }
-    
-    const userFriendResult = await connection.query(selectUserFriendQuery, friendcode);
+async function selectUserFriend(connection, friendcode, userId) {
+  console.log(friendcode);
+  console.log(isNaN(friendcode));
+  let selectUserFriendQuery;
+  if (!isNaN(friendcode)) {
+    selectUserFriendQuery = `
+        SELECT Users.userId,
+       secondId,
+       userLevel,
+       userName,
+       statusMessage,
+       profileImgUrl,
+       IF(IsFriend.userFirstId,true,false) as isFriend,
+       IF(HasRequest.friendId,true,false) as hasRequest,
+       IF(SendRequest.friendId,true,false) as sendRequest
+ FROM Users
+ LEFT JOIN (
+     SELECT * FROM Friends
+        WHERE userFirstId=${firstId} and userSecondId=${secondId}
+ )IsFriend on IsFriend.userSecondId=Users.userId # 친구의 userId가 userFisrtId이다.
+ LEFT JOIN(
+     SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
+    LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
+    WHERE Notifications.userId=${myId} and friendId=${friendId}
+ )HasRequest on HasRequest.friendId=Users.userId
+ LEFT JOIN(
+     SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
+    LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
+    WHERE Notifications.userId=${friendId} and friendId=${myId}
+ )SendRequest on SendRequest.userId=Users.userId
+ WHERE secondId=${friendcode};`;
+  } else {
+    selectUserFriendQuery = `
+    SELECT Users.userId,
+    secondId,
+    userLevel,
+    userName,
+    statusMessage,
+    profileImgUrl,
+    IF(IsFriend.userFirstId,true,false) as isFriend,
+    IF(HasRequest.friendId,true,false) as hasRequest,
+    IF(SendRequest.friendId,true,false) as sendRequest
+FROM Users
+LEFT JOIN (
+  SELECT * FROM Friends
+     WHERE userFirstId=${firstId} and userSecondId=${secondId}
+)IsFriend on IsFriend.userSecondId=Users.userId # 친구의 userId가 userFisrtId이다.
+LEFT JOIN(
+  SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
+ LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
+ WHERE Notifications.userId=${myId} and friendId=${friendId}
+)HasRequest on HasRequest.friendId=Users.userId
+LEFT JOIN(
+  SELECT Notifications.notificationId,Notifications.userId,Notifications.message,Notificaitons_Of_FriendRequest.friendId FROM Notificaitons_Of_FriendRequest
+ LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
+ WHERE Notifications.userId=${friendId} and friendId=${myId}
+)SendRequest on SendRequest.userId=Users.userId
+WHERE secondId=${friendcode};`;
+  }
 
-    return userFriendResult[0];
+  const userFriendResult = await connection.query(
+    selectUserFriendQuery,
+    friendcode
+  );
+
+  return userFriendResult[0];
 }
 
-async function insertUserFriend(connection, friendId, userId){
-
-    if(userId<friendId){
-        const insertUserFriendQuery = `
+async function insertUserFriend(connection, friendId, userId) {
+  if (userId < friendId) {
+    const insertUserFriendQuery = `
             insert into Friends (userFirstId,userSecondId)
             value(${userId},${friendId})
-        `
-        const insertUserFriendResult = await connection.query(insertUserFriendQuery, friendId, userId);
+        `;
+    const insertUserFriendResult = await connection.query(
+      insertUserFriendQuery,
+      friendId,
+      userId
+    );
 
-        return;
-    }else {
-        const insertUserFriendQuery = `
+    return;
+  } else {
+    const insertUserFriendQuery = `
             insert into Friends (userFirstId,userSecondId)
             value(${friendId}, ${userId})
-        `
-        const insertUserFriendResult = await connection.query(insertUserFriendQuery, friendId, userId);
+        `;
+    const insertUserFriendResult = await connection.query(
+      insertUserFriendQuery,
+      friendId,
+      userId
+    );
 
-        return;
-    }
-
-
+    return;
+  }
 }
 
 async function selectFriendId(connection, friendcode) {
-
-    const selectFriendIdQuery = `
+  const selectFriendIdQuery = `
     select userId
     from Users
     where userUniqueCode='${friendcode}'
-  `
-    const friendId = await connection.query(selectFriendIdQuery, friendcode);
-    console.log(friendId[0])
-    return friendId[0][0].userId;
-
+  `;
+  const friendId = await connection.query(selectFriendIdQuery, friendcode);
+  console.log(friendId[0]);
+  return friendId[0][0].userId;
 }
 
-async function insertNotifications(connection,friendId,message ){
-
-    const insertNotificationsQuery = `
+async function insertNotifications(connection, friendId, message) {
+  const insertNotificationsQuery = `
         insert into Notifications (userId,message)
             value(${friendId}
             ,'${message}');
-    `
-    const insertNotificationsResult = await connection.query(insertNotificationsQuery,friendId, message);
+    `;
+  const insertNotificationsResult = await connection.query(
+    insertNotificationsQuery,
+    friendId,
+    message
+  );
 
-    return insertNotificationsResult[0].insertId
+  return insertNotificationsResult[0].insertId;
 }
 
-async function postNotificationFriendAcceptance(connection,notificationId,friendId ){
-
-    const insertNotificationsQuery = `
+async function postNotificationFriendAcceptance(
+  connection,
+  notificationId,
+  friendId
+) {
+  const insertNotificationsQuery = `
         insert into Notifications_Of_FriendAcceptance (notificationId,friendId)
             VALUES(${notificationId},${friendId});
-    `
-    const insertNotificationsResult = await connection.query(insertNotificationsQuery);
+    `;
+  const insertNotificationsResult = await connection.query(
+    insertNotificationsQuery
+  );
 
-    return insertNotificationsResult[0];
+  return insertNotificationsResult[0];
 }
 
-async function insertNotifications_Of_FriendRequest(connection,notificationId, friendId) {
-
-    const acceptFriendRequestQuery = `
+async function insertNotifications_Of_FriendRequest(
+  connection,
+  notificationId,
+  friendId
+) {
+  const acceptFriendRequestQuery = `
         INSERT INTO Notifications_Of_FriendAcceptance
         VALUES(${notificationId},${friendId})
-    `
-    const acceptFriendRequestResult = await connection.query(acceptFriendRequestQuery);
+    `;
+  const acceptFriendRequestResult = await connection.query(
+    acceptFriendRequestQuery
+  );
 
-    return acceptFriendRequestResult[0];
-
+  return acceptFriendRequestResult[0];
 }
 
-async function selectFriendIdFromNotification(connection,notificationId ) {
-
-    const selectFriendIdQuery = `
+async function selectFriendIdFromNotification(connection, notificationId) {
+  const selectFriendIdQuery = `
         select friendId
         from Notificaitons_Of_FriendRequest
         where notificationId=${notificationId}
-    `
+    `;
 
-    const friendIdResult = await connection.query(selectFriendIdQuery,notificationId);
+  const friendIdResult = await connection.query(
+    selectFriendIdQuery,
+    notificationId
+  );
 
-    return friendIdResult[0][0].friendId
+  return friendIdResult[0][0].friendId;
 }
 module.exports = {
-    getFriends,
-    selectUserFriend,
-    insertUserFriend,
-    selectFriendId,
-    insertNotifications,
-    insertNotifications_Of_FriendRequest,
-    selectFriendIdFromNotification,
-    postNotificationFriendAcceptance
+  getFriends,
+  selectUserFriend,
+  insertUserFriend,
+  selectFriendId,
+  insertNotifications,
+  insertNotifications_Of_FriendRequest,
+  selectFriendIdFromNotification,
+  postNotificationFriendAcceptance,
 };
