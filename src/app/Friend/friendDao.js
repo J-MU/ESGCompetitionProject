@@ -23,6 +23,7 @@ async function selectUserFriend(connection, friendcode, userId) {
   console.log(friendcode);
   console.log(isNaN(friendcode));
   let selectUserFriendQuery;
+
   if (!isNaN(friendcode)) {
     selectUserFriendQuery = `
         SELECT Users.userId,
