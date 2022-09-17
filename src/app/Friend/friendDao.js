@@ -24,7 +24,7 @@ async function selectUserFriend(connection, friendcode){
     const selectUserFriendQuery = `
     select userId, userLevel, userName, statusMessage, profileImgUrl
     from Users
-    where userUniqueCode='${friendcode}'
+    where userUniqueCode='${friendcode}';
   `
     const userFriendResult = await connection.query(selectUserFriendQuery, friendcode);
 
