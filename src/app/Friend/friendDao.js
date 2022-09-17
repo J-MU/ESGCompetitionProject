@@ -99,7 +99,7 @@ async function selectUserFriend(connection, friendcode, userId) {
     LEFT JOIN Notifications on Notifications.notificationId=Notificaitons_Of_FriendRequest.notificationId
     WHERE Notifications.userId=${friendId} and friendId=${myId}
  )SendRequest on SendRequest.userId=Users.userId
- where Users.userName LIKE "%${friendcode}%";
+ where Users.userName LIKE "%${friendcode}%"`;
   }
 
   const userFriendResult = await connection.query(
