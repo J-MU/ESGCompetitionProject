@@ -163,7 +163,7 @@ async function selectFriendId(connection, friendcode) {
   const selectFriendIdQuery = `
     select userId
     from Users
-    where userUniqueCode='${friendcode}'
+    where secondId='${friendcode}'
   `;
   const friendId = await connection.query(selectFriendIdQuery, friendcode);
   console.log(friendId[0]);
@@ -172,9 +172,8 @@ async function selectFriendId(connection, friendcode) {
 
 async function insertNotifications(connection, friendId, message) {
   const insertNotificationsQuery = `
-        insert into Notifications (userId,message)
-            value(${friendId}
-            ,'${message}');
+        insert into Notifications (userId,message,category)
+            value(${friendId},'${message}',1);
     `;
   const insertNotificationsResult = await connection.query(
     insertNotificationsQuery,
@@ -206,14 +205,17 @@ async function insertNotifications_Of_FriendRequest(
   notificationId,
   friendId
 ) {
+  console.log(notificationId,friendId);
+  console.log("여기는 마지막 구간입니다.");
   const acceptFriendRequestQuery = `
-        INSERT INTO Notifications_Of_FriendAcceptance
-        VALUES(${notificationId},${friendId})
+      INSERT INTO Notificaitons_Of_FriendRequest(notificationId,friendId)
+      VALUES(${notificationId},${friendId})
     `;
   const acceptFriendRequestResult = await connection.query(
     acceptFriendRequestQuery
   );
 
+  console.log(acceptFriendRequestResult);
   return acceptFriendRequestResult[0];
 }
 

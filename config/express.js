@@ -26,8 +26,6 @@ module.exports = function () {
     require('../src/app/Friend/friendRoute')(app);
     require('../src/app/User/userRoute')(app);
     require('../src/app/Mission/missionRoute')(app);
-    //require('../src/app/ImageUpload/ImageUploaderRouter')(app);
-    // require('../src/app/Board/boardRoute')(app);
 
     return app;
 };
