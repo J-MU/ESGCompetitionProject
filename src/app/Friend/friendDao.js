@@ -220,4 +220,5 @@ module.exports = {
   insertNotifications_Of_FriendRequest,
   selectFriendIdFromNotification,
   postNotificationFriendAcceptance,
+  selectFriendIdList,
 };
