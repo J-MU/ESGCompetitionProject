@@ -203,7 +203,7 @@ exports.getConfirmationPage = async function(req,res) {
 exports.postConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
-    const userId = 16;
+    const userId = 13;
     const feedId = req.params.Id;
     // const idontno=req.query.userId;
 

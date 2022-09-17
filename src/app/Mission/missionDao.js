@@ -403,3 +403,50 @@ exports.confirmationIdCheck = async function(connection, userId, confirmationId)
     return confirmationIdCheckResult[0];
 
 }
+
+exports.addStampInMission = async function(connection, userId, groupId) {
+
+    const addStampInMissionQuery = `
+        update MyMissionsWithFriends set stamp = stamp+1 where groupId=${groupId} and userId=${userId}
+    `
+    const addStampResult  = await connection.query(addStampInMissionQuery,userId, groupId);
+    return addStampResult;
+
+
+}
+
+exports.insertStampInStampDB = async function(connection, userId, groupId) {
+    const insertStampInStampDBQuery = `
+        insert into Stamp(groupId, userId)
+            value(${groupId},${userId})
+    `
+    const insertStampInStampDBResult  = await connection.query(insertStampInStampDBQuery,userId, groupId);
+    return insertStampInStampDBResult;
+}
+
+exports.deleteTotalStamp = async function(connection, userId,confirmationId) {
+    console.log('여기들어옴?')
+
+    const deleteTotalStampQuery = `
+        update MyMissionsWithFriends set stamp = stamp-1 where
+                                                     groupId=(select groupId from Confirmation (where Id=${confirmationId}))
+                                                   and userId=${userId}
+    `
+
+    const deleteTotalStampResult  = await connection.query(deleteTotalStampQuery ,userId, confirmationId);
+
+    console.log(deleteTotalStampQuery)
+    return deleteTotalStampResult;
+}
+
+exports.deleteStampInStampDB = async function(connection,userId,confirmationId) {
+
+    const deleteStampInStampDBQuery = `
+        delete from Stamp where  groupId=(select groupId from Confirmation where Id=${confirmationId})
+                            and userId=${userId}
+    `
+
+    const deleteStampResult  = await connection.query(deleteStampInStampDBQuery ,userId, confirmationId);
+
+    return deleteStampResult;
+}

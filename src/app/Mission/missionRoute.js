@@ -74,7 +74,7 @@ module.exports = function(app) {
     // 인증하는 페이지 API
     app.post('/app/group/missionConfirmation', mission.postMissionConfirmation);
 
-    // 미션 삭제 API
+    // 인증 삭제 API
     app.delete('/app/group/missionConfirmation/no-images', mission.deleteMissionConfirmation);
 
     // 좋아요 추가 API
