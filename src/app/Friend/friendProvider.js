@@ -19,6 +19,13 @@ exports.getFriends = async function (userId) {
 exports.retrieveUserFriend = async function (friendcode, userId) {
   const connection = await pool.getConnection(async (conn) => conn);
 
+  const firstIdList = await friendDao.selectFriendIdList(
+    connection,
+    friendcode
+  );
+
+  console.log(firstIdList);
+
   const userFriendResult = await friendDao.selectUserFriend(
     connection,
     friendcode,
