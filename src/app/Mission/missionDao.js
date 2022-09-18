@@ -339,9 +339,9 @@ exports.selectUserName = async function(connection, userId){
 exports.insertNotifications = async function(connection, feedId, message) {
 
     const insertNotificationsQuery = `
-        insert into Notifications (userId,message)
+        insert into Notifications (userId,message,category)
             value((select userId from Confirmation where Id=${feedId})
-            ,'${message}');
+            ,'${message}',2);
     `
     const insertNotificationsResult = await connection.query(insertNotificationsQuery,feedId, message);
 

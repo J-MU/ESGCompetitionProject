@@ -231,7 +231,9 @@ exports.postMissionConfirmation = async function(req, res) {
 
     const userId = req.body.userId
     const groupId = req.body.groupId
-
+    console.log("들어왔다");
+    console.log(userId);
+    console.log(groupId);   
     if(!userId){
         return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
     }
