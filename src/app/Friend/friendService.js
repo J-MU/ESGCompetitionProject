@@ -16,7 +16,8 @@ exports.notifyFriendRequest = async function(userId, friendcode) {
 
     const message = `${userName}님이 친구 요청을 보냈습니다.`
 
-    const notificationId = await friendDao.insertNotifications(connection,friendId,message); //친구한테 친구 요청 알림보내기
+    const cateogory=0;
+    const notificationId = await friendDao.insertNotifications(connection,friendId,message, category); //친구한테 친구 요청 알림보내기
 
     const insertNotifications_Of_FriendRequestResult = await friendDao.insertNotifications_Of_FriendRequest(connection,notificationId,userId);
 

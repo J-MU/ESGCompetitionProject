@@ -3,6 +3,7 @@ const baseResponse = require("../../../config/baseResponseStatus");
 const {pool} = require("../../../config/database");
 const {response, errResponse} = require("../../../config/response");
 const userProvider = require("../User/userProvider");
+const friendDao = require("../Friend/friendDao");
 
 
 //myMission 생성
@@ -112,7 +113,8 @@ exports.postConfirmationPageLike = async function(userId,feedId) {
 
         const message = `❤  ${userName}님이 회원님의 사진을 좋아합니다.`
 
-        const notificationId = await missionDao.insertNotifications(connection,feedId,message);
+        const category = 2;
+        const notificationId = await missionDao.insertNotifications(connection,feedId,message,category);
 
         const insertNotifications_Of_FriendLikeResult = await missionDao.insertNotifications_Of_FriendLike(connection,notificationId, userId, feedId);
 
@@ -177,6 +179,27 @@ exports.makeMissionConfirmation = async function(userId, groupId,time) {
 
     //스탬프 db에 추가하기
     const insertStampResult = await missionDao.insertStampInStampDB(connection, userId, groupId,time);
+
+    //알림 보내기
+    const friendIdResult = await missionDao.selectFriendInGroup(connection,userId, groupId);
+
+    const userName = await missionDao.selectUserName(connection, userId);
+
+    let missionName = await missionDao.selectMissionName(connection, groupId);
+
+    missionName = missionName[0].missionName
+
+    const message = `${userName}님이 ${missionName}을(를) 수행했습니다.`
+
+    for(let i=0; i<friendIdResult.length;i++){
+
+        const category = 3;
+        const receiver = friendIdResult[i].userId;
+
+        const insertNotificationResult = await friendDao.insertNotifications(connection,receiver, message, category);
+
+        const insertNotificationfriendPerformanceResult = await missionDao.insertNotificationfriendPerformance(connection,insertNotificationResult,userId, groupId);
+    }
 
     connection.release();
 
