@@ -172,6 +172,12 @@ exports.makeMissionConfirmation = async function(userId, groupId) {
 
     const missionIdResult = await missionDao.insertNewMission(connection,userId, groupId);
 
+    //미션 생겼으면 스탬프주기
+    const giveStampResult = await missionDao.addStampInMission(connection, userId, groupId);
+
+    //스탬프 db에 추가하기
+    const insertStampResult = await missionDao.insertStampInStampDB(connection, userId, groupId);
+
     connection.release();
 
     const missionIdReturn = {}
@@ -206,7 +212,16 @@ exports.removeMissionConfirmation = async function(userId, confirmationId) {
             return errResponse(baseResponse.CONFIRMATION_NOT_EXIST)
         }
 
+        //스탬프 추가된거 지워요
+        const removeTotalStampResult = await missionDao.deleteTotalStamp(connection,userId, confirmationId);
+
+        //스탬프 DB에 저장된 거 지워요
+        const removeStampInStampDBResult = await missionDao.deleteStampInStampDB(connection,userId, confirmationId );
+
+        //missionTable 지워요
         const missionIdResult = await missionDao.deleteMissionConfirmationInDB(connection,userId, confirmationId);
+
+
 
     }catch(err) {
 
