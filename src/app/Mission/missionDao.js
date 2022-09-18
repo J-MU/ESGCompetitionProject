@@ -415,12 +415,13 @@ exports.addStampInMission = async function(connection, userId, groupId) {
 
 }
 
-exports.insertStampInStampDB = async function(connection, userId, groupId) {
+exports.insertStampInStampDB = async function(connection, userId, groupId,time) {
+    console.log(time)
     const insertStampInStampDBQuery = `
-        insert into Stamp(groupId, userId)
-            value(${groupId},${userId})
+        insert into Stamp(groupId, userId,date)
+            value(${groupId},${userId},'${time}')
     `
-    const insertStampInStampDBResult  = await connection.query(insertStampInStampDBQuery,userId, groupId);
+    const insertStampInStampDBResult  = await connection.query(insertStampInStampDBQuery,userId, groupId,time);
     return insertStampInStampDBResult;
 }
 

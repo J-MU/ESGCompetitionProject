@@ -166,7 +166,7 @@ exports.postMyMission = async function(groupId, day, num) {
     return;
 }
 
-exports.makeMissionConfirmation = async function(userId, groupId) {
+exports.makeMissionConfirmation = async function(userId, groupId,time) {
 
     const connection = await pool.getConnection(async (conn) => conn);
 
@@ -176,7 +176,7 @@ exports.makeMissionConfirmation = async function(userId, groupId) {
     const giveStampResult = await missionDao.addStampInMission(connection, userId, groupId);
 
     //스탬프 db에 추가하기
-    const insertStampResult = await missionDao.insertStampInStampDB(connection, userId, groupId);
+    const insertStampResult = await missionDao.insertStampInStampDB(connection, userId, groupId,time);
 
     connection.release();
 
