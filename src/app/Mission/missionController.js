@@ -50,7 +50,7 @@ exports.getMissionLists = async function(req,res) {
 
 exports.postMission = async function(req,res) {
 
-    const userId=1  //TODO userId Default 한번씩 다 확인해보세요.
+    const userId=req.body.userId  //TODO userId Default 한번씩 다 확인해보세요.
     const missionId= req.params.missionId
 
     //userId validation
@@ -203,7 +203,7 @@ exports.getConfirmationPage = async function(req,res) {
 exports.postConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
-    const userId = 13;
+    const userId = req.body.userId;
     const feedId = req.params.Id;
     // const idontno=req.query.userId;
 
@@ -216,7 +216,7 @@ exports.postConfirmationPageLike = async function(req, res) {
 exports.deleteConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
-    const userId = 2;
+    const userId = req.body.userId;
     const feedId = req.params.feedId;
     // const idontno=req.query.userId;
 

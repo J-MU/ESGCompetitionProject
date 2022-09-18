@@ -63,7 +63,7 @@ exports.postFriendRequestNotification = async function (req, res) {
 
 exports.postNewFriend = async function (req, res) {
   console.log("여기 들어는 왔냐~?");
-  const userId = 1; //친구 요청 받은 사람
+  const userId = req.body.userId; //친구 요청 받은 사람
   const notificationId = req.body.notificationId; //알림 Id
 
   const postNewFriendResponse = await friendService.makeNewFriend(
