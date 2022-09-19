@@ -37,7 +37,7 @@ exports.getMyMissionLists = async function (req, res) {
  */
 exports.getMissionLists = async function(req,res) {
     //TODO 권한 validation
-
+    console.log("요청아~ 왔니?");
     const getMissionListsResponse = await missionProvider.getMissionLists();
 
     return res.send(response(baseResponse.SUCCESS, getMissionListsResponse));

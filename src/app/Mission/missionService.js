@@ -110,7 +110,7 @@ exports.postConfirmationPageLike = async function(userId,feedId) {
 
         const userName = await missionDao.selectUserName(connection,userId);
 
-        const message = `❤  ${userName}님이 회원님의 사진을 좋아합니다.`
+        const message = `${userName}님이 회원님의 사진을 좋아합니다.`
 
         const notificationId = await missionDao.insertNotifications(connection,feedId,message);
 

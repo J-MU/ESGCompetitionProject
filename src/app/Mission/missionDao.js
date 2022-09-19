@@ -38,7 +38,7 @@ exports.getFriends = async function(connection, groupId, userId) {
 exports.getMissionLists = async function(connection) {
 
     const selectMissionListsQuery =  `
-    select missionId ,missionName, descriptionImgUrl,descriptionComment1,descriptionComment2
+    select missionId ,missionName, descriptionImgUrl,goal,descriptionComment1,descriptionComment2
     from Missions LIMIT 5;
 `;//TODO 데이터 부족으로 일단 5개까지만
 

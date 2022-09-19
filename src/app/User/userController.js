@@ -37,8 +37,8 @@ exports.postUsers = async function (req, res) {
     if (!userId)
         return res.send(response(baseResponse.USER_USERID_EMPTY));
 
-    if (await checkUserIdRange(userId))
-        return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
+    // if (await checkUserIdRange(userId))
+    //     return res.send(response(baseResponse.USER_USERID_INVALID_VALUE));
 
     console.log(typeof userId);
     if(isNaN(userId))
@@ -132,6 +132,10 @@ exports.getUserById = async function (req, res) {
     if (!userId) return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
 
     const userByUserId = await userProvider.retrieveUser(userId);
+    console.log(userByUserId);
+    if(userByUserId===undefined){
+        return res.send(response({ "isSuccess": true, "code": 2001, "message":"회원이 아닙니다." },userByUserId));
+    }
     console.log("여기까지 왔어.");
     return res.send(response(baseResponse.SUCCESS,userByUserId));
 };
@@ -206,7 +210,7 @@ exports.checkUserIdRange=async function(userId){
 }
 
 exports.getNotifications = async function(req, res) {
-
+    console.log("와ㅏ아아아아아아");
     const userId = req.params.userId
 
     const getNotificationsResponse = await userProvider.retrieveUserNotifications(userId)
