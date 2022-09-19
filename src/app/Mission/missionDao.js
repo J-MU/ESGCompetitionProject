@@ -336,14 +336,14 @@ exports.selectUserName = async function(connection, userId){
 
     return userName;
 }
-exports.insertNotifications = async function(connection, feedId, message) {
+exports.insertNotifications = async function(connection, feedId, message,category) {
 
     const insertNotificationsQuery = `
         insert into Notifications (userId,message,category)
             value((select userId from Confirmation where Id=${feedId})
-            ,'${message}',2);
+            ,'${message}',${category});
     `
-    const insertNotificationsResult = await connection.query(insertNotificationsQuery,feedId, message);
+    const insertNotificationsResult = await connection.query(insertNotificationsQuery,feedId, message,category);
 
     return insertNotificationsResult[0].insertId
 
@@ -415,12 +415,13 @@ exports.addStampInMission = async function(connection, userId, groupId) {
 
 }
 
-exports.insertStampInStampDB = async function(connection, userId, groupId) {
+exports.insertStampInStampDB = async function(connection, userId, groupId,time) {
+    console.log(time)
     const insertStampInStampDBQuery = `
-        insert into Stamp(groupId, userId)
-            value(${groupId},${userId})
+        insert into Stamp(groupId, userId,date)
+            value(${groupId},${userId},'${time}')
     `
-    const insertStampInStampDBResult  = await connection.query(insertStampInStampDBQuery,userId, groupId);
+    const insertStampInStampDBResult  = await connection.query(insertStampInStampDBQuery,userId, groupId,time);
     return insertStampInStampDBResult;
 }
 
@@ -449,4 +450,39 @@ exports.deleteStampInStampDB = async function(connection,userId,confirmationId) 
     const deleteStampResult  = await connection.query(deleteStampInStampDBQuery ,userId, confirmationId);
 
     return deleteStampResult;
+}
+
+exports.selectFriendInGroup = async function(connection,userId, groupId) {
+
+    const selectFriendInGroupQuery = `
+        select userId
+        from MyMissionsWithFriends
+        where userId not in (${userId}) and groupId=${groupId};
+    `
+    const friendIdList = await connection.query(selectFriendInGroupQuery ,userId, groupId);
+
+    return friendIdList[0]
+}
+
+exports.selectMissionName = async function(connection, groupId) {
+
+    const selectMissionNameQuery = `
+        select missionName
+        from MyMission
+        where groupId =${groupId}
+    `
+    const missionNameResult = await connection.query(selectMissionNameQuery ,groupId);
+
+    return missionNameResult[0]
+}
+
+exports.insertNotificationfriendPerformance= async function(connection,notificationId, friendId, groupId) {
+
+    const insertNotificationfriendPerformanceQuery = `
+        insert into Notifications_Of_FriendPerformance(notificationId, friendId, groupId)
+        values(${notificationId}, ${friendId},${groupId})
+    `
+    const Result = await connection.query(insertNotificationfriendPerformanceQuery ,notificationId, friendId, groupId);
+
+    return Result[0];
 }

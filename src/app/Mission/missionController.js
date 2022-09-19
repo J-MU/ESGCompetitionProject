@@ -3,7 +3,7 @@ const missionProvider = require(".//missionProvider");
 const missionService = require(".//missionService");
 const baseResponse = require("../../../config/baseResponseStatus");
 const {response, errResponse} = require("../../../config/response");
-
+const date = require('date-utils');
 const {emit} = require("nodemon");
 
 
@@ -50,7 +50,7 @@ exports.getMissionLists = async function(req,res) {
 
 exports.postMission = async function(req,res) {
 
-    const userId=1  //TODO userId Default 한번씩 다 확인해보세요.
+    const userId=req.body.userId  //TODO userId Default 한번씩 다 확인해보세요.
     const missionId= req.params.missionId
 
     //userId validation
@@ -203,7 +203,7 @@ exports.getConfirmationPage = async function(req,res) {
 exports.postConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
-    const userId = 13;
+    const userId = req.body.userId;
     const feedId = req.params.Id;
     // const idontno=req.query.userId;
 
@@ -216,7 +216,7 @@ exports.postConfirmationPageLike = async function(req, res) {
 exports.deleteConfirmationPageLike = async function(req, res) {
 
     //TODO JWT
-    const userId = 2;
+    const userId = req.body.userId;
     const feedId = req.params.feedId;
     // const idontno=req.query.userId;
 
@@ -228,12 +228,15 @@ exports.deleteConfirmationPageLike = async function(req, res) {
 }
 
 exports.postMissionConfirmation = async function(req, res) {
+    var newDate = new Date();
+    var time = newDate.toFormat('YYYY-MM-DD');
+
+    console.log('타임스탭프')
+    console.log(time)
 
     const userId = req.body.userId
     const groupId = req.body.groupId
-    console.log("들어왔다");
-    console.log(userId);
-    console.log(groupId);   
+
     if(!userId){
         return res.send(errResponse(baseResponse.USER_USERID_EMPTY));
     }
@@ -242,7 +245,7 @@ exports.postMissionConfirmation = async function(req, res) {
         return res.send(errResponse(baseResponse.MISSION_GROUPID_EMPTY));
     }
 
-    const postMissionConfirmationResponse = await missionService.makeMissionConfirmation(userId, groupId);
+    const postMissionConfirmationResponse = await missionService.makeMissionConfirmation(userId, groupId,time);
 
     return res.send(response(baseResponse.SUCCESS, postMissionConfirmationResponse));
 

@@ -170,15 +170,15 @@ async function selectFriendId(connection, friendcode) {
   return friendId[0][0].userId;
 }
 
-async function insertNotifications(connection, friendId, message) {
+async function insertNotifications(connection, friendId, message, category) {
   const insertNotificationsQuery = `
         insert into Notifications (userId,message,category)
-            value(${friendId},'${message}',1);
+            value(${friendId},'${message}',${category});
     `;
   const insertNotificationsResult = await connection.query(
     insertNotificationsQuery,
     friendId,
-    message
+    message, category
   );
 
   return insertNotificationsResult[0].insertId;
